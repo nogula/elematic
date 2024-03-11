@@ -1,0 +1,19 @@
+[project]
+name = "elematic"
+version = "0.0.1"
+description = "Material Information Manager"
+authors = [
+    {name = "Noah Gula", email="noahrgula@gmail.com"}
+]
+readme = "readme.md"
+license = {text = "GNU GPL V3"}
+keywords = ["MatML","Material Information Management"]
+
+[project.urls]
+Homepage = "https://github.com/nogula/elematic"
+Issues = "https://github.com/nogula/elematic/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
