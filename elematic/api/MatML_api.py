@@ -6189,7 +6189,7 @@ class PropertyData(GeneratedsSuper):
             self.quote = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'Data':
-            obj_ = DataType1.factory(parent_object_=self)
+            obj_ = DataType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Data = obj_
             obj_.original_tagname_ = 'Data'
@@ -8933,6 +8933,9 @@ class GraphType(GeneratedsSuper):
 
 
 class DataType(GeneratedsSuper):
+    """for ParameterValue elements
+
+    """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -9034,111 +9037,6 @@ class DataType(GeneratedsSuper):
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class DataType
-
-
-class DataType1(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, format=None, valueOf_=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.format = _cast(None, format)
-        self.format_nsprefix_ = None
-        self.valueOf_ = valueOf_
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, DataType1)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if DataType1.subclass:
-            return DataType1.subclass(*args_, **kwargs_)
-        else:
-            return DataType1(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_format(self):
-        return self.format
-    def set_format(self, format):
-        self.format = format
-    formatProp = property(get_format, set_format)
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def validate_DataFormat(self, value):
-        # Validate type DataFormat, a restriction on xsd:string.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
-            value = value
-            enumerations = ['float', 'integer', 'string', 'exponential', 'mixed']
-            if value not in enumerations:
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on DataFormat' % {"value" : encode_str_2_3(value), "lineno": lineno} )
-                result = False
-    def has__content(self):
-        if (
-            (1 if type(self.valueOf_) in [int,float] else self.valueOf_)
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DataType1', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('DataType1')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'DataType1':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self._exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='DataType1')
-        outfile.write('>')
-        self._exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_, pretty_print=pretty_print)
-        outfile.write(self.convert_unicode(self.valueOf_))
-        outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-    def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DataType1'):
-        if self.format is not None and 'format' not in already_processed:
-            already_processed.add('format')
-            outfile.write(' format=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.format), input_name='format')), ))
-    def _exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DataType1', fromsubclass_=False, pretty_print=True):
-        pass
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self._buildAttributes(node, node.attrib, already_processed)
-        self.valueOf_ = get_all_text_(node)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self._buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def _buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('format', node)
-        if value is not None and 'format' not in already_processed:
-            already_processed.add('format')
-            self.format = value
-            self.validate_DataFormat(self.format)    # validate type DataFormat
-    def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        pass
-# end class DataType1
-
 
 #
 # End data representation classes.
@@ -9356,7 +9254,7 @@ __all__ = [
     "Concentration",
     "DataSourceDetails",
     "DataType",
-    "DataType1",
+    "DataType",
     "DimensionalDetails",
     "Element",
     "Form",

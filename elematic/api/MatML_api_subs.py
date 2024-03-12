@@ -356,14 +356,6 @@ class DataTypeSub(supermod.DataType):
 supermod.DataType.subclass = DataTypeSub
 # end class DataTypeSub
 
-
-class DataType1Sub(supermod.DataType1):
-    def __init__(self, format=None, valueOf_=None, **kwargs_):
-        super(DataType1Sub, self).__init__(format, valueOf_,  **kwargs_)
-supermod.DataType1.subclass = DataType1Sub
-# end class DataType1Sub
-
-
 def get_root_tag(node):
     tag = supermod.Tag_pattern_.match(node.tag).groups()[-1]
     rootClass = None
