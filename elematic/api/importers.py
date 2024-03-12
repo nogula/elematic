@@ -1,18 +1,25 @@
 import sys
-
 from . import MatML_api as mapi
 
+
 def import_xml(inputFile):
+    """Reads MatML information from an XML file. Currently does not validate the file.
+
+    Args:
+        inputFile (str): filename location of XML data.
+
+    Returns:
+        elematic.api.MatML_api.MatML_doc: the root element of the MatML data
+    """
     doc = mapi.parsexml_(inputFile)
     rootNode = doc.getroot()
     rootObject = mapi.MatML_Doc.factory()
     rootObject.build(rootNode)
     doc = None
-    print(rootObject)
     return rootObject
 
 def import_granta():
-    pass
+    raise NotImplementedError
 
 def main():
     args = sys.argv[1:]
