@@ -1,23 +1,36 @@
-[project]
-name = "elematic"
-version = "0.0.1"
-description = "Material Information Manager"
-authors = [
-    {name = "Noah Gula", email="noahrgula@gmail.com"}
-]
-readme = "readme.md"
-license = {text = "GNU GPL V3"}
-keywords = ["MatML","Material Information Management"]
-dependencies = [
-    "lxml",
-    "six",
-]
-
-[project.urls]
-Homepage = "https://github.com/nogula/elematic"
-Issues = "https://github.com/nogula/elematic/issues"
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project]
+name = "elematic"
+version = "0.0.1"
+description = "Material information management"
+readme = "readme.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Noah Gula", email = "noahrgula@gmail.com"}
+]
+keywords = ["materials", "information", "management", "MatML"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+urls = {
+    "Homepage" = "https://github.com/nogula/elematic",
+    "Repository" = "https://github.com/nogula/elematic",
+    "Documentation" = "https://github.com/nogula/elematic/wiki"
+    "Issues" = "https://github.com/nogula/elematic/issues",
+}
+
+[project.dependencies]
+six = "*"
+lxml = "*"
+
+[project.optional-dependencies]
+# Currently, you have none, but you can add them here later.
+
+[tool.hatch.metadata]
+# Additional Hatch-specific configurations if needed
