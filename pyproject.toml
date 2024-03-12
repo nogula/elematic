@@ -8,6 +8,10 @@ authors = [
 readme = "readme.md"
 license = {text = "GNU GPL V3"}
 keywords = ["MatML","Material Information Management"]
+dependencies = [
+    "lxml",
+    "six",
+]
 
 [project.urls]
 Homepage = "https://github.com/nogula/elematic"
