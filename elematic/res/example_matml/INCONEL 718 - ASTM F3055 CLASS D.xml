@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MatML_Doc>
+  <Material id="ID1001">
+    <BulkDetails>
+      <Name>INCONEL 718 PER ASTM F3055 CLASS D</Name>
+      <Class>
+        <Name>METAL</Name>
+      </Class>
+      <Subclass>
+        <Name>NICKEL ALLOY</Name>
+      </Subclass>
+      <ProcessingDetails>
+        <Name>STRESS RELIEF</Name>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>1950</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_2">
+          <Data>90</Data>
+        </ParameterValue>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>HOT ISOSTATIC PRESSING</Name>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>2125</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_2">
+          <Data>200</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_3">
+          <Data>14750</Data>
+        </ParameterValue>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>SOLUTION TREATMENT</Name>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>1750</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_2">
+          <Data>60</Data>
+        </ParameterValue>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>QUENCH</Name>
+        <Notes>Air or argon rapid cooling</Notes>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>ARTIFICIAL AGEING 1</Name>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>1325</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_2">
+          <Data>480</Data>
+        </ParameterValue>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>ARTIFICIAL AGEING 2</Name>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>1150</Data>
+        </ParameterValue>
+        <ParameterValue format="float" parameter="pa_2">
+          <Data>600</Data>
+        </ParameterValue>
+      </ProcessingDetails>
+      <ProcessingDetails>
+        <Name>QUENCH</Name>
+        <Notes>Air or argon rapid cooling</Notes>
+      </ProcessingDetails>
+      <PropertyData property="pr_1" source="ds_1">
+        <Data format="float">192000,153000</Data>
+        <Qualifier>HORIZONTAL</Qualifier>
+        <Qualifier>MEAN</Qualifier>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>70,1200</Data>
+        </ParameterValue>
+      </PropertyData>
+      <PropertyData property="pr_2" source="ds_1">
+        <Data format="float">159000,128000</Data>
+        <Qualifier>HORIZONTAL</Qualifier>
+        <Qualifier>MEAN</Qualifier>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>70,1200</Data>
+        </ParameterValue>
+      </PropertyData>
+      <PropertyData property="pr_3" source="ds_1">
+        <Data format="float">17.83,20.0</Data>
+        <Qualifier>HORIZONTAL</Qualifier>
+        <Qualifier>MEAN</Qualifier>
+        <ParameterValue parameter="pa_1" format="float">
+          <Data>70,1200</Data>
+        </ParameterValue>
+      </PropertyData>
+      <PropertyData property="pr_4" source="ds_1">
+        <Data format="float">26500000,29000000</Data>
+        <Qualifier>TYPICAL RANGE</Qualifier>
+      </PropertyData>
+      <Notes>This is a material produced by laser powder bed fusion additive manufacturing. Selected data from qualified Velo3D data sets (mean values) at 1000 W with 50 micron layer thickness.</Notes>
+    </BulkDetails>
+  </Material>
+  <Metadata>
+    <DataSourceDetails id="ds_1">
+      <Name>Velo3D Inconel 718 Datasheet</Name>
+      <Notes>https://velo3d.com/wp-content/uploads/2023/11/Inconel-718-Datasheet-US-Web.pdf</Notes>
+    </DataSourceDetails>
+    <ParameterDetails id="pa_1">
+      <Name>TEMPERATURE</Name>
+      <Units description="DEGREES FAHRENHEIT">
+        <Unit power="1">
+          <Name>°F</Name>
+        </Unit>
+      </Units>
+    </ParameterDetails>
+    <ParameterDetails id="pa_2">
+      <Name>DURATION</Name>
+      <Units description="MINUTES">
+        <Unit power="1">
+          <Name>min</Name>
+        </Unit>
+      </Units>
+    </ParameterDetails>
+    <ParameterDetails id="pa_3">
+      <Name>PRESSURE</Name>
+      <Units description="psi">
+        <Unit power="1" description="POUND-FORCE">
+          <Name>lbf</Name>
+        </Unit>
+        <Unit description="INCH" power="-2">
+          <Name>in</Name>
+        </Unit>
+      </Units>
+    </ParameterDetails>
+    <PropertyDetails id="pr_1">
+      <Name>TENSILE ULTIMATE STRENGTH</Name>
+      <Units description="psi">
+        <Unit power="1" description="POUND-FORCE">
+          <Name>lbf</Name>
+        </Unit>
+        <Unit description="INCH" power="-2">
+          <Name>in</Name>
+        </Unit>
+      </Units>
+    </PropertyDetails>
+    <PropertyDetails id="pr_2">
+      <Name>TENSILE YIELD STRENGTH</Name>
+      <Units description="psi">
+        <Unit power="1" description="POUND-FORCE">
+          <Name>lbf</Name>
+        </Unit>
+        <Unit description="INCH" power="-2">
+          <Name>in</Name>
+        </Unit>
+      </Units>
+      <Notes>At 0.2% yield</Notes>
+    </PropertyDetails>
+    <PropertyDetails id="pr_3">
+      <Name>TENSILE YIELD STRENGTH</Name>
+      <Units description="%">
+        <Unit power="1" description="PERCENT">
+          <Name>%</Name>
+        </Unit>
+      </Units>
+    </PropertyDetails>
+    <PropertyDetails id="pr_4">
+      <Name>MODULUS OF ELASTICITY</Name>
+      <Units description="psi">
+        <Unit power="1" description="POUND-FORCE">
+          <Name>lbf</Name>
+        </Unit>
+        <Unit description="INCH" power="-2">
+          <Name>in</Name>
+        </Unit>
+      </Units>
+    </PropertyDetails>
+  </Metadata>
+</MatML_Doc>
