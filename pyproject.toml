@@ -18,16 +18,16 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-urls = {
-    "Homepage" = "https://github.com/nogula/elematic",
-    "Repository" = "https://github.com/nogula/elematic",
-    "Documentation" = "https://github.com/nogula/elematic/wiki"
-    "Issues" = "https://github.com/nogula/elematic/issues",
-}
+dependencies = [
+    "lxml",
+    "six",
+]
 
-[project.dependencies]
-six = "*"
-lxml = "*"
+[project.urls]
+"Homepage" = "https://github.com/nogula/elematic"
+"Repository" = "https://github.com/nogula/elematic"
+"Documentation" = "https://github.com/nogula/elematic/wiki"
+"Issues" = "https://github.com/nogula/elematic/issues"
 
 [project.optional-dependencies]
 # Currently, you have none, but you can add them here later.
