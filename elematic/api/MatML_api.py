@@ -8965,12 +8965,18 @@ class DataType(GeneratedsSuper):
     def set_format(self, format):
         self.format = format
     formatProp = property(get_format, set_format)
-    def get_valueOf_(self):
+    def get_valueOf_(self,delimiter=','):
         data_format = self.get_format()
-        if type(self.parent_object_) == PropertyData:
+        try:
+            # Use the parent's delimiter if it exists. If the attribute exists, but is None, then the delimiter is by default ','.
             delimiter = ',' if self.parent_object_.delimiter is None else self.parent_object_.delimiter
-        elif type(self.parent_object_) == ParameterValue:
-            delimiter = ',' if self.parent_object_.parent_object_.delimiter is None else self.parent_object_.parent_object_.delimiter
+        except AttributeError:
+            try:
+                # If the parent doesn't have an attribute called `delimiter`, then check the grandparent and try again.
+                delimiter = ',' if self.parent_object_.parent_object_.delimiter is None else self.parent_object_.parent_object_.delimiter
+            except AttributeError:
+                # Otherwise... turn to the default.
+                delimeter = ','
         match data_format:
             case 'float':
                 return [float(item) for item in self.valueOf_.split(delimiter)]
