@@ -8933,9 +8933,6 @@ class GraphType(GeneratedsSuper):
 
 
 class DataType(GeneratedsSuper):
-    """for ParameterValue elements
-
-    """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -8968,7 +8965,29 @@ class DataType(GeneratedsSuper):
     def set_format(self, format):
         self.format = format
     formatProp = property(get_format, set_format)
-    def get_valueOf_(self): return self.valueOf_
+    def get_valueOf_(self):
+        data_format = self.get_format()
+        if type(self.parent_object_) == PropertyData:
+            delimiter = ',' if self.parent_object_.delimiter is None else self.parent_object_.delimiter
+        elif type(self.parent_object_) == ParameterValue:
+            delimiter = ',' if self.parent_object_.parent_object_.delimiter is None else self.parent_object_.parent_object_.delimiter
+        match data_format:
+            case 'float':
+                return [float(item) for item in self.valueOf_.split(delimiter)]
+            case 'integer':
+                return [int(item) for item in self.valueOf_.split(delimiter)]
+            case 'string':
+                return [str(item) for item in self.valueOf_.split(delimiter)]
+            case 'exponential':
+                return [float(item) for item in self.valueOf_.split(delimiter)]
+            case 'mixed':
+                return [str(item) for item in self.valueOf_.split(delimiter)]
+            case _:
+                try:
+                    return [float(item) for item in self.valueOf_.split(delimiter)]
+                except ValueError:
+                    return [str(item) for item in self.valueOf_.split(delimiter)]
+        return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def validate_DataFormat(self, value):
         # Validate type DataFormat, a restriction on xsd:string.
