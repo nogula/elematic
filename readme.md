@@ -1,18 +1,30 @@
-# elematic
-This software offers utilities to manage materials information using the [MatML v3.1 schema](https://www.oasis-open.org/committees/documents.php?wg_abbrev=materials). An API is provided to inspect and edit materials information within other Python scripts (e.g., to read property data for a material used in an analysis) as well as a graphical user interface to visually inspect and edit MatML files.
+<h1 align='center'> elematic </h1>
 
-## Quickstart
+Materials information management utilities in Python using the MatML schema from NIST.
+
+## Features
+
+- Convert MatML XML files to Python data structures.
+- Inspect and edit materials information.
+
+## Documentation
+
+[Documentation](https://github.com/nogula/elematic/wiki) is still in work. To get started, see the [installation](#installation) and [usage](#usage) sections.
+## Installation
+
+Install elematic with pip.
+
+```bash
+pip install elematic@git+https://github.com/nogula/elematic
+```
+## Usage
+
 This package comprises four utilities:
 
-1. `.api.MatML_api`: forms the basic classes and data structure for interacting with MatML data.
-1. `.api.importers`: provides means to import MatML data from XML and other files.
-1. `api.exporters`: (not yet implemented) provides means to export MatML data to other handy formats for use in other programs.
-1. `.gui`: (not yet implemented) provides a means of visually inspecting and editing MatML data.
-
-### Installation
-
-1. This software uses Python. It's built with 3.11, but you can probably use other 3.X versions at your own risk.
-1. Install with pip: `pip install elematic@git+https://github.com/nogula/elematic`
+1. `elematic.api.MatML_api`: forms the basic classes and data structure for interacting with MatML data.
+1. `elematic.api.importers`: provides means to import MatML data from XML and other files.
+1. `elematic.api.exporters`: (not yet implemented) provides means to export MatML data to other handy formats for use in other programs.
+1. `elematic.gui`: (not yet implemented) provides a means of visually inspecting and editing MatML data.
 
 ### Example
 This example will use the example MatML file located here: [INCONEL 718 - ASTM F3055 CLASS D](<elematic/res/example_matml/INCONEL 718 - ASTM F3055 CLASS D.xml>).
@@ -76,12 +88,15 @@ This loop prints the `property` attribute of each of the `PropertyData` elements
 ```python
 property = "pr_1"
 property_data = material.BulkDetails.get_PropertyData(property=property)[0]
-print(property_data.get_Data().valueOf_)
+print(property_data.get_Data().get_valueOf_())
 ```
 ```
-"192000,153000"
+[192000.0,153000.0]
 ```
-Basically, what's happening here is that we are getting the property `pr_` from the material card. This returns a list of properties since there could be multiple PropertyData with the same property. In this case there is only one, so we access it with the zero index. We then get the Data element and its `valueOf_` attribute. This returns a string of the value(s). (Note: there is an open Issue (#4) to create a utility to "process" this string into its appropriate format.)
+Basically, what's happening here is that we are getting the property `pr_1` from the material card. This returns a list of properties since there could be multiple PropertyData with the same property. In this case there is only one, so we access it with the zero index. We then get the Data element and its values with the `get_valueOf_()` method, returning a list of floats.
+
+> [!NOTE]
+> The `get_valueOf_()` method for the `DataType` class (corresponding with Data elements) will return a list of values in the same format as specified by the parent PropertyData or ParameterValue element. If a format is not specified, the method will try to convert the values to a list of floats. If that fails, it will return a list of strings.
 
 Two questions emerge; what are the units of this property, and what parameter is it dependent on?
 ```python
@@ -110,17 +125,15 @@ Until the gui becomes available, one should become familiar with the MatML 3.1 s
 - If the element has a text node, it can be accessed via the `.valueOf_` attribute. E.g., `.get_Data().valueOf_`.
   - The (XML) attributes of an element can also be accessed by `get_...()` methods, or as (Python) attributes. E.g., the `id` of material is obtainable via both `.get_id()` or just `.id`.
 
-## Credits
+## Acknowledgements
 
-### Acknowledgement
+- The initial API was created by conversion of the MatML 3.1 schema to a Python data structure via [generateDS](http://www.davekuhlman.org/generateDS.htm) by Dave Kuhlman.
 
-The initial API was created by conversion of the MatML 3.1 schema to a Python data structure via [generateDS](http://www.davekuhlman.org/generateDS.htm) by Dave Kuhlman.
+## Related
 
-### Contributors
-See: [Contributors](https://github.com/nogula/elematic/graphs/contributors)
-
-## Contributing
-
-## See also
 - [MatEditor](https://docs.welsim.com/mateditor/mateditor_overview/): a free material editor software program for engineers.
 - [BT-MatML-Editor](https://github.com/P-McG/BT-MatML-Editor): a text editor for the MatML 3.1 XML Schema.
+
+## License
+
+Copyright is released under the [MIT](https://choosealicense.com/licenses/mit/) license.
