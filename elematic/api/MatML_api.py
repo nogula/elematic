@@ -6828,7 +6828,7 @@ class Unit(GeneratedsSuper):
         if self.Name is not None:
             namespaceprefix_ = self.Name_nsprefix_ + ':' if (UseCapturedNS_ and self.Name_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Name), input_name='Name')), namespaceprefix_ , eol_))
+            outfile.write('<%sName>%s</%sName>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Name.valueOf_), input_name='Name')), namespaceprefix_ , eol_))
         if self.Currency is not None:
             namespaceprefix_ = self.Currency_nsprefix_ + ':' if (UseCapturedNS_ and self.Currency_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -7073,6 +7073,59 @@ class Units(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
+    def string(self,format:str|None=None) -> str:
+        """Returns a formatted representation of the Units.
+
+        Args:
+            format (str | None, optional): the units string formatter. Say your units are pound-force (lbf) per square inch (in), the following formats will return: Defaults to None.
+            
+            - format = 'explicit': 'lbf^1·in^-2'
+            - format = 'short': 'lbf·in^-2'
+            - format = None (default): 'lbf / in^-2'
+
+        Returns:
+            str: the formatted string representation
+        """
+        s = ""
+        match format:
+            case 'explicit':
+                for unit in self.Unit:
+                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else unit.power
+                    s += u + "^" + str(power) + "·"
+                return s[0:len(s)-3]
+            case 'short':
+                for unit in self.Unit:
+                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else unit.power
+                    if power == 1.0:
+                        s += u + "·"
+                    elif power.is_integer():
+                        s += u + '^' + str(int(power)) + "·"
+                    else:
+                        s += u + '^' + str(power) + "·"
+                return s[0:len(s)-1]
+            case _:
+                numerator = ""
+                denominator = ""
+                for unit in self.Unit:
+                    u = u if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else unit.power
+                    if power > 0:
+                        if power == 1.0:
+                            numerator += u + "·"
+                        elif power.is_integer():
+                            numerator += u + '^' + str(int(power)) + "·"
+                        else:
+                            numerator += u + '^' + str(power) + "·"
+                    elif power < 0:
+                        if power == -1.0:
+                            denominator += u + "·"
+                        elif power.is_integer():
+                            denominator += u + '^' + str(abs(int(power))) + "·"
+                        else:
+                            denominator += u + '^' + str(abs(power)) + "·"
+                return numerator[0:len(numerator)-1] + " / " + denominator[0:len(denominator)-1]
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='Units'):
         if self.system is not None and 'system' not in already_processed:
             already_processed.add('system')
