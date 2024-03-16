@@ -7109,7 +7109,7 @@ class Units(GeneratedsSuper):
                 numerator = ""
                 denominator = ""
                 for unit in self.Unit:
-                    u = u if unit.Name is not None else unit.Currency._value_
+                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
                     power = 1.0 if unit.power is None else unit.power
                     if power > 0:
                         if power == 1.0:
