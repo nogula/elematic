@@ -837,16 +837,13 @@ def find_attr_value_(attr_name, node):
 def encode_str_2_3(instr):
     return instr
 
-
 class GDSParseError(Exception):
     pass
-
 
 def raise_parse_error(node, msg):
     if node is not None:
         msg = '%s (element %s/line %d)' % (msg, node.tag, node.sourceline, )
     raise GDSParseError(msg)
-
 
 class MixedContainer:
     # Constants for category:
@@ -965,7 +962,6 @@ class MixedContainer:
             showIndent(outfile, level)
             outfile.write(')\n')
 
-
 class MemberSpec_(object):
     def __init__(self, name='', data_type='', container=0,
             optional=0, child_attrs=None, choice=None):
@@ -996,22 +992,14 @@ class MemberSpec_(object):
     def set_optional(self, optional): self.optional = optional
     def get_optional(self): return self.optional
 
-
 def _cast(typ, value):
     if typ is None or value is None:
         return value
     return typ(value)
 
-
-#
-# Start enum classes
-#
 class ChemicalElementSymbol(str, Enum):
-    """ChemicalElementSymbol --
-    *************************   ChemicalElementSymbol    *************************
-    This datatype enumerates the valid strings representing chemical
-    elements, which may be used in the Symbol element.
-    
+    """ 
+    This datatype enumerates the valid strings representing chemical elements, which may be used in the `Symbol` element.
     """
     H='H' # Hydrogen
     HE='He' # Helium
@@ -1129,18 +1117,10 @@ class ChemicalElementSymbol(str, Enum):
     UUH='Uuh' # Ununhexium
     UUO='Uuo' # Ununoctium
 
-
 class CurrencyCode(str, Enum):
-    """CurrencyCode --
-    *************************        ISO4217_CurrencyCode         *************************
-    Based on ISO-4217, and taken from paper N699 on http://www.jtc1sc32.org/
-    As of 2003-12-11 permission to use this element has been sought from, but
-    not yet been granted by, the authors of the paper.
-    This element declares the content model for value, which contains a string
-    representing a currency.
-    For the most current updates, refer to
-    http://www.din.de/gremien/nas/nabd/iso4217ma/codlistp1/en_listp1.html.
+    """ISO4217_CurrencyCode
     
+    Based on ISO-4217, and taken from paper N699 on http://www.jtc1sc32.org/ As of 2003-12-11 permission to use this element has been sought from, but not yet been granted by, the authors of the paper. This element declares the content model for `CurrencyCode`, which contains a string representing a currency. For the most current updates, refer to http://www.din.de/gremien/nas/nabd/iso4217ma/codlistp1/en_listp1.html.
     """
     AFA='AFA' # Afghani
     ALL='ALL' # Lek
@@ -1325,17 +1305,8 @@ class CurrencyCode(str, Enum):
     ZMK='ZMK' # Kwacha
     ZWD='ZWD' # Zimbabwe Dollar
 
-
 class DataFormat(str, Enum):
-    """DataFormat --
-    *************************       DataFormat       *************************
-    This element declares the content model for DataFormat and is
-    composed of the following elements.
-    DataFormat is used to indicate the format of a value with which it is associated
-    ("float," "integer," "string,", "exponential" or "mixed")
-    "mixed" is only used for a group of data where each individual member of the
-    group can be given a unique format.
-    
+    """This element declares the content model for `DataFormat` and is composed of the following elements. `DataFormat` is used to indicate the format of a value with which it is associated ("float," "integer," "string,", "exponential" or "mixed") "mixed" is only used for a group of data where each individual member of the group can be given a unique format.
     """
     FLOAT='float'
     INTEGER='integer'
@@ -1343,29 +1314,16 @@ class DataFormat(str, Enum):
     EXPONENTIAL='exponential'
     MIXED='mixed'
 
-
 class ScaleType(str, Enum):
     LINEAR='Linear'
     LOGARITHMIC='Logarithmic'
 
-
-#
-# Start data representation classes
-#
 class MatML_Doc(GeneratedsSuper):
-    """MatML_Doc --
-    *************************              MatML_Doc               *************************
-    This element declares the content model for MatML_Doc, topmost in the
-    hierarchy of elements that comprise a document marked up using MatML.
-    Content models describe the relationships of the element and its child
-    elements. MatML_Doc must contain one or more Material elements.
-    Metadata contains descriptions of the data sources, properties,
-    measurement techniques, specimens, and parameters which are
-    referenced when materials property data are encoded using
-    other elements. Metadata may occur once or not at all within the
-    Material element. For more information, see the documentation for the
-    Metadata element.
+    """This element declares the content model for `MatML_Doc`, topmost in the hierarchy of elements that comprise a document marked up using MatML. Content models describe the relationships of the element and its child elements.
     
+    - `MatML_Doc` must contain one or more `Material` elements.
+    
+    - `Metadata` contains descriptions of the data sources, properties, measurement techniques, specimens, and parameters which are referenced when materials property data are encoded using other elements. `Metadata` may occur once or not at all within the Material element. For more information, see the documentation for the `Metadata` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -1487,29 +1445,13 @@ class MatML_Doc(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Metadata = obj_
             obj_.original_tagname_ = 'Metadata'
-# end class MatML_Doc
-
 
 class AssociationDetails(GeneratedsSuper):
-    """AssociationDetails --
-    *************************     AssociationDetails       *************************
-    This element declares the content model for AssociationDetails, which
-    contains a description of a relationship of the component to another
-    component in a complex material system such as a composite, weld, or
-    multilayer material. AssociationDetails is composed of the following
-    elements.
-    Associate contains the name of a component's associate. For example,
-    a TiC coating has been placed on AISI 1018 steel coupons. The
-    Associate of the steel, then, is the "titanium carbide coating." Associate
-    must occur once and only once within the AssociationDetails element.
-    Relationship contains a description of the relationship between a
-    component and the associate. For example, the associate of the "steel"
-    component is the "titanium carbide coating." The relationship of the "steel"
-    to the "titanium carbide coating" is that the steel is the "substrate" for
-    the coating. Relationship must occur once and only once within the
-    AssociationDetails element.
-    Notes contains any additional information concerning the association and
-    may occur once or not at all within the AssociationDetails element.
+    """This element declares the content model for `AssociationDetails`, which contains a description of a relationship of the component to another component in a complex material system such as a composite, weld, or multilayer material. `AssociationDetails` is composed of the following elements.
+    
+    - `Associate` contains the name of a component's associate. For example, a TiC coating has been placed on AISI 1018 steel coupons. The `Associate` of the steel, then, is the "titanium carbide coating." `Associate` must occur once and only once within the `AssociationDetails` element.
+    - `Relationship` contains a description of the relationship between a component and the associate. For example, the associate of the "steel" component is the "titanium carbide coating." The relationship of the "steel" to the "titanium carbide coating" is that the steel is the "substrate" for the coating. `Relationship` must occur once and only once within the `AssociationDetails` element.   
+    - `Notes` contains any additional information concerning the association and may occur once or not at all within the `AssociationDetails` element.
     
     """
     __hash__ = GeneratedsSuper.__hash__
@@ -1679,48 +1621,20 @@ class AssociationDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class AssociationDetails
-
 
 class BulkDetails(GeneratedsSuper):
-    """BulkDetails --
-    *************************         BulkDetails           *************************
-    This element declares the content model for BulkDetails, which
-    contains a description of the bulk material and is composed of the
-    following elements.
-    Name contains the material's name and has one optional attribute,
-    authority, for identifying an authoritative source of material
-    names. Name must occur once and only once within the BulkDetails
-    element.
-    Class contains the material's class and may occur zero or more times
-    within the BulkDetails element.
-    Subclass contains the material's subclass(es) and may occur zero
-    or more times within the BulkDetails element.
-    Specification contains the material's specification(s) and has one
-    optional attribute, authority, for identifying an authoritative
-    source of material specifications. Specification may occur zero or
-    more times within the BulkDetails element.
-    Source contains the name of the source of the material and may
-    occur once or not at all within the BulkDetails element.
-    Form contains the form of the material and may occur once or not at
-    all within the BulkDetails element.  It has an optional element
-    Geometry, for describing the dimensions of the Component.  For
-    additional information, see the documentation for the Form type.
-    ProcessingDetails contains a description of a processing step for
-    the material and may occur zero or more times within the BulkDetails
-    element. For additional information, see the documentation for the
-    ProcessingDetails element.
-    Characterization contains the characterization of the material,
-    including the formula, chemical composition, phase composition, and
-    dimensional details. Characterization may occur once or not at all
-    within the BulkDetails element. For additional information, see the
-    documentation for the Characterization element.
-    PropertyData contains the property data for the material and may occur
-    zero or more times within the BulkDetails element. For additional
-    information, see the documentation for the PropertyData element.
-    Notes contains any additional information concerning the bulk material
-    and may occur once or not at all within the BulkDetails element.
+    """This element declares the content model for `BulkDetails`, which contains a description of the bulk material and is composed of the following elements.
     
+    - `Name` contains the material's name and has one optional attribute, `authority`, for identifying an authoritative source of material names. `Name` must occur once and only once within the `BulkDetails` element.
+    - `Class` contains the material's class and may occur zero or more times within the `BulkDetails` element.
+    - `Subclass` contains the material's subclass(es) and may occur zero or more times within the `BulkDetails` element.
+    - `Specification` contains the material's specification(s) and has one optional attribute, `authority`, for identifying an authoritative source of material specifications. `Specification` may occur zero or more times within the `BulkDetails` element.
+    - `Source` contains the name of the source of the material and may occur once or not at all within the `BulkDetails` element.
+    - `Form` contains the form of the material and may occur once or not at all within the `BulkDetails` element. It has an optional element `Geometry`, for describing the dimensions of the Component.  For additional information, see the documentation for the `Form` type.
+    - `ProcessingDetails` contains a description of a processing step for the material and may occur zero or more times within the `BulkDetails` element. For additional information, see the documentation for the `ProcessingDetails` element.
+    - `Characterization` contains the characterization of the material, including the formula, chemical composition, phase composition, and dimensional details. `Characterization` may occur once or not at all within the `BulkDetails` element. For additional information, see the documentation for the `Characterization` element.
+    - `PropertyData` contains the property data for the material and may occur zero or more times within the `BulkDetails` element. For additional information, see the documentation for the `PropertyData` element.
+    - `Notes` contains any additional information concerning the bulk material and may occur once or not at all within the `BulkDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -2022,36 +1936,15 @@ class BulkDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class BulkDetails
-
 
 class Characterization(GeneratedsSuper):
-    """Characterization --
-    *************************       Characterization        *************************
-    This element declares the content model for Characterization, which
-    contains a description of the chemical composition of the bulk material
-    or component and is composed of the following elements.
-    Formula contains a string representation of the chemical formula for
-    the bulk material or component and must occur once and only once
-    within the Characterization element.  For further details see documentation
-    of the Formula element.
-    ChemicalComposition contains a description of the compounds and
-    elements that comprise the bulk material or component and may
-    occur once or not at all within the Characterization element. For
-    additional information, see the documentation for the ChemicalComposition
-    element.
-    PhaseComposition contains a description of the phases that comprise
-    the bulk material or component and may occur zero or more times
-    within the Characterization element. For additional information, see the
-    documentation for the PhaseComposition element.
-    DimensionalDetails contains information relating to component or bulk
-    material dimensional characteristics such as grain size, porosity,
-    precipitate size and distribution, etc., and may occur zero or more times
-    within the Characterization element. For additional information, see the
-    documentation for the DimensionalDetails element.
-    Notes contains any additional information concerning the Characterization
-    and may occur once or not at all within the Characterization element.
+    """This element declares the content model for `Characterization`, which contains a description of the chemical composition of the bulk material or component and is composed of the following elements.
     
+    - `Formula` contains a string representation of the chemical formula for the bulk material or component and must occur once and only once within the `Characterization` element.  For further details see documentation of the `Formula` element.
+    - `ChemicalComposition` contains a description of the compounds and elements that comprise the bulk material or component and may occur once or not at all within the `Characterization` element. For additional information, see the documentation for the `ChemicalComposition` element.
+    - `PhaseComposition` contains a description of the phases that comprise the bulk material or component and may occur zero or more times within the `Characterization` element. For additional information, see the documentation for the `PhaseComposition` element.
+    - `DimensionalDetails` contains information relating to component or bulk material dimensional characteristics such as grain size, porosity, precipitate size and distribution, etc., and may occur zero or more times within the `Characterization` element. For additional information, see the documentation for the `DimensionalDetails` element.
+    - `Notes` contains any additional information concerning the `Characterization` and may occur once or not at all within the `Characterization` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -2255,22 +2148,12 @@ class Characterization(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Characterization
-
 
 class ChemicalComposition(GeneratedsSuper):
-    """ChemicalComposition --
-    *************************    ChemicalComposition    *************************
-    This element declares the content model for ChemicalComposition, which
-    contains a detailed description of the compounds and elements that
-    comprise the bulk material or component. ChemicalComposition must
-    contain at least one Compound element or Element element but may
-    contain as many of each element as needed.
-    Compound contains a description of a compound. For additional
-    information, see the documentation for the Compound element.
-    Element contains a description of an element. For additional information,
-    see the documentation for the Element element.
+    """This element declares the content model for `ChemicalComposition`, which contains a detailed description of the compounds and elements that comprise the bulk material or component. `ChemicalComposition` must contain at least one `Compound` element or `Element` element but may contain as many of each element as needed.
     
+    - `Compound` contains a description of a compound. For additional information, see the documentation for the `Compound` element.
+    - `Element` contains a description of an element. For additional information, see the documentation for the `Element` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -2396,20 +2279,14 @@ class ChemicalComposition(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Element.append(obj_)
             obj_.original_tagname_ = 'Element'
-# end class ChemicalComposition
-
 
 class Class(GeneratedsSuper):
-    """Class --
-    *************************              Class              *************************
-    This element declares the content model for Class, which is the material
-    class to which the Material belongs.
-    The Class can either have a Name or ParentMaterial element:
-    Name contains a string representing the name of the material's class
-    and may occur only once within the Class element.
-    ParentMaterial is an reference by ID to another Material in the
-    MatML_Doc and can occur only once in the Class element.
+    """This element declares the content model for `Class`, which is the material class to which the `Material` belongs.
     
+    The `Class` can either have a `Name` or `ParentMaterial` element:
+    
+    - `Name` contains a string representing the name of the material's class and may occur only once within the `Class` element.
+    - `ParentMaterial` is an reference by `id` to another `Material` in the `MatML_Doc` and can occur only once in the `Class` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -2551,64 +2428,23 @@ class Class(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.ParentSubClass.append(obj_)
             obj_.original_tagname_ = 'ParentSubClass'
-# end class Class
-
 
 class ComponentDetails(GeneratedsSuper):
-    """ComponentDetails --
-    *************************     ComponentDetails        *************************
-    This element declares the content model for ComponentDetails, which
-    contains a description of a component within the bulk material and has
-    one optional attribute, id, which may be used as an identification
-    specifier for the component and is especially useful for complex
-    systems such as composite laminates.
-    ComponentDetails is composed of the following elements.
-    Name contains the component's name and has one optional attribute,
-    authority, for identifying an authoritative source of component names.
-    Name must occur once and only once within the ComponentDetails
-    type.
-    Class contains the component's class and may occur zero or more
-    times within the ComponentDetails element.  For additional information,
-    see the	documentation for the Class type.
-    Subclass contains the component's subclass(es) and may occur zero
-    or more times within the ComponentDetails element. For additional
-    information, see the	documentation for the SubClass type.
-    Specification contains the component's specification(s) and has one
-    optional attribute, authority, for identifying an authoritative
-    source of component specifications. Specification may occur zero or
-    more times within the ComponentDetails type.
-    Source contains the name of the source of the component and may
-    occur once or not at all within the ComponentDetails type.  For
-    additional information, see the documentation for the SourceDetails
-    element.
-    Form contains the form of the component and may occur once or not
-    at all within the ComponentDetails type.  It has an optional element
-    Geometry, for describing the dimensions of the Component.  For
-    additional information, see the documentation for the Form type.
-    ProcessingDetails contains a description of a processing step for
-    the component and may occur zero or more times within the
-    ComponentDetails type. For additional information, see the
-    documentation for the ProcessingDetails element.
-    Characterization contains the characterization of the component,
-    including the formula, chemical composition, phase composition, and
-    dimensional details. Characterization may occur once or not at all
-    within the ComponentDetails type. For additional information, see
-    the documentation for the Characterization element.
-    PropertyData contains the property data for the component and may
-    occur zero or more times within the ComponentDetails type. For
-    additional information, see the documentation for the PropertyData
-    element.
-    AssociationDetails contains a description of a relationship of the
-    component to another component and may occur zero or more times
-    within the ComponentDetails type. For additional information, see
-    the documentation for the AssociationDetails element.
-    Notes contains any additional information concerning the component
-    and may occur once or not at all within the ComponentDetails type.
-    ComponentDetails contains a description of a component within the
-    component and is used to support encoding of information for
-    complex materials systems such as composites. ComponentDetails
-    may occur zero or more times within a ComponentDetails element.
+    """This element declares the content model for `ComponentDetails`, which contains a description of a component within the bulk material and has one optional attribute, `id`, which may be used as an identification specifier for the component and is especially useful for complex systems such as composite laminates.
     
+    `ComponentDetails` is composed of the following elements.
+    
+    - `Name` contains the component's name and has one optional attribute, `authority`, for identifying an authoritative source of component names. `Name` must occur once and only once within the `ComponentDetails` type.
+    - `Class` contains the component's class and may occur zero or more times within the `ComponentDetails` element.  For additional information, see the documentation for the `Class` type.
+    - `Subclass` contains the component's subclass(es) and may occur zero or more times within the `ComponentDetails` element. For additional information, see the documentation for the `SubClass` type.
+    - `Specification` contains the component's specification(s) and has one optional attribute, `authority`, for identifying an authoritative source of component specifications. `Specification` may occur zero or more times within the `ComponentDetails` type.
+    - `Source` contains the name of the source of the component and may occur once or not at all within the `ComponentDetails` type.  For additional information, see the documentation for the `SourceDetails` element.
+    - `Form` contains the form of the component and may occur once or not at all within the `ComponentDetails` type.  It has an optional element `Geometry`, for describing the dimensions of the Component.  For additional information, see the documentation for the `Form` type.
+    - `ProcessingDetails` contains a description of a processing step for the component and may occur zero or more times within the `ComponentDetails` type. For additional information, see the documentation for the `ProcessingDetails` element.
+    - `Characterization` contains the characterization of the component, including the formula, chemical composition, phase composition, and dimensional details. `Characterization` may occur once or not at all within the `ComponentDetails` type. For additional information, see the documentation for the `Characterization` element.
+    - `PropertyData` contains the property data for the component and may occur zero or more times within the `ComponentDetails` type. For additional information, see the documentation for the `PropertyData` element.
+    - `AssociationDetails` contains a description of a relationship of the component to another component and may occur zero or more times within the `ComponentDetails` type. For additional information, see the documentation for the `AssociationDetails` element. Notes contains any additional information concerning the component and may occur once or not at all within the `ComponentDetails` type.
+    - `ComponentDetails` contains a description of a component within the component and is used to support encoding of information for complex materials systems such as composites. `ComponentDetails` may occur zero or more times within a `ComponentDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -2946,24 +2782,13 @@ class ComponentDetails(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.ComponentDetails.append(obj_)
             obj_.original_tagname_ = 'ComponentDetails'
-# end class ComponentDetails
-
 
 class Compound(GeneratedsSuper):
-    """Compound --
-    *************************         Compound           *************************
-    This element declares the content model for Compound, which contains
-    the elemental description of a chemical compound and is composed the
-    following elements.
-    Element contains the description of a chemical element and must occur
-    one or more times within the Compound element. For additional
-    information, see the documentation for the Element element.
-    Concentration contains the concentration of the compound and may
-    occur once or not at all within the Compound element. For additional
-    information, see the documentation for the Concentration element.
-    Notes contains any additional information concerning the compound
-    and may occur once or not at all within the Compound element.
-    
+    """This element declares the content model for `Compound`, which contains the elemental description of a chemical compound and is composed the following elements.
+
+    - `Element` contains the description of a chemical element and must occur one or more times within the `Compound` element. For additional information, see the documentation for the `Element` element.
+    - Concentration contains the concentration of the compound and may occur once or not at all within the `Compound` element. For additional information, see the documentation for the `Concentration` element.  
+    - `Notes` contains any additional information concerning the compound and may occur once or not at all within the `Compound` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -3111,30 +2936,15 @@ class Compound(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Compound
-
 
 class Concentration(GeneratedsSuper):
-    """Concentration --
-    *************************       Concentration        *************************
-    This element declares the content model for Concentration and is
-    composed of the following elements.
-    Value contains the value of the concentration and has one required
-    attribute, format, for indicating the format of the value.  Value must
-    occur once and only once within the Concentration element.
-    Units contains the units for the value of the concentration and must
-    occur once 	and only once within the Concentration element. For additional
-    information, see the documentation for the Units element.
-    Qualifier contains any qualifier pertinent to the value of the concentration
-    (e.g. "min," "max," etc.) and may occur once or not at all within the
-    Concentration element.
-    Uncertainty contains the measurement uncertainty(ies) of the data in
-    Data and may occur zero or more times within the Concentration
-    element. For additional information, see the documentation for the
-    Uncertainty type.
-    Notes contains any additional information concerning the concentration
-    and may occur once or not at all within the Concentration element.
+    """This element declares the content model for `Concentration` and is composed of the following elements.
     
+    - `Value` contains the value of the concentration and has one required attribute, `format`, for indicating the format of the value.  `Value` must occur once and only once within the `Concentration` element.
+    - `Units` contains the units for the value of the concentration and must occur once and only once within the `Concentration` element. For additional information, see the documentation for the `Units` element.
+    - `Qualifier` contains any qualifier pertinent to the value of the concentration (e.g. "min," "max," etc.) and may occur once or not at all within the `Concentration` element.
+    - `Uncertainty` contains the measurement uncertainty(ies) of the data in Data and may occur zero or more times within the `Concentration` element. For additional information, see the documentation for the `Uncertainty` type.
+    - `Notes` contains any additional information concerning the concentration and may occur once or not at all within the `Concentration` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -3337,37 +3147,16 @@ class Concentration(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Concentration
-
 
 class DimensionalDetails(GeneratedsSuper):
-    """DimensionalDetails --
-    *************************   DimensionalDetails     *************************
-    This element declares the content model for DimensionalDetails, which
-    contains a description of a dimensional characteristic (e.g. grain size,
-    porosity, precipitate size and distribution, etc.) of the bulk material or
-    component and is composed of the following elements.
-    Name contains the name of the characteristic and has one optional
-    attribute, authority, for identifying an authoritative source of
-    dimensional characteristic names. Name must occur once and only once
-    within the DimensionalDetails element.
-    Value contains the value of the dimensional characteristic and has one
-    required attribute, format, for indicating the format of the value.  Value
-    must occur once and only once within the DimensionalDetails element.
-    Units contains the units for the value of the dimensional characteristic
-    and must occur once and only once within the DimensionalDetails
-    element. For additional information, see the documentation for the Units
-    type.
-    Qualifier contains any qualifier pertinent to the value of the dimensional
-    characteristic (e.g. "min," "max," etc.) and may occur once or not at all
-    within the DimensionalDetails element.
-    Uncertainty contains the measurement uncertainty(ies) of the data in
-    Data and may occur zero or more times within the DimensionalDetails
-    element. For additional information, see the documentation for the
-    Uncertainty type.
-    Notes contains any additional information concerning the dimensional
-    characteristic and may occur once or not at all within the
-    DimensionalDetails element.
+    """This element declares the content model for `DimensionalDetails`, which contains a description of a dimensional characteristic (e.g. grain size, porosity, precipitate size and distribution, etc.) of the bulk material or component and is composed of the following elements.
+    
+    - `Name` contains the name of the characteristic and has one optional attribute, `authority`, for identifying an authoritative source of dimensional characteristic names. `Name` must occur once and only once within the `DimensionalDetails` element.
+    - `Value` contains the value of the dimensional characteristic and has one required attribute, format, for indicating the format of the value.  `Value` must occur once and only once within the `DimensionalDetails` element.
+    - `Units` contains the units for the value of the dimensional characteristic and must occur once and only once within the `DimensionalDetails` element. For additional information, see the documentation for the `Units` type.
+    - `Qualifier` contains any qualifier pertinent to the value of the dimensional characteristic (e.g. "min," "max," etc.) and may occur once or not at all within the `DimensionalDetails` element.
+    - `Uncertainty` contains the measurement uncertainty(ies) of the data in Data and may occur zero or more times within the `DimensionalDetails` element. For additional information, see the documentation for the `Uncertainty` type.
+    - `Notes` contains any additional information concerning the dimensional characteristic and may occur once or not at all within the `DimensionalDetails` element.
     
     """
     __hash__ = GeneratedsSuper.__hash__
@@ -3579,34 +3368,18 @@ class DimensionalDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class DimensionalDetails
-
 
 class Element(GeneratedsSuper):
-    """Element --
-    *************************             Element            *************************
-    This element declares the content model for Element and is composed
-    of the following elements.
-    Symbol contains the symbol for the chemical element, which is one
-    among those enumerated by the ChemicalElementSymbol datatype.
-    Symbol has one optional attribute, subscript, for indicating the
-    subscript (formula units) of the chemical element. Symbol must occur
-    once and only once within the Element element. For additional
-    information, see the documentation for the ChemicalElementSymbol
-    datatype.
-    Concentration contains the concentration of the element and may occur
-    once or not at all within the Element element. For additional information,
-    see the documentation for the Concentration element.
-    Notes contains any additional information concerning the element and
-    may occur once or not at all within the Element element.
-      
-    * Symbol --
-      *************************       Symbol        *************************
-      This element declares the content model for Symbol, which contains
-      the symbol for the chemical element. The entry for Symbol is selected
-      from among the strings enumerated by the ChemicalElementSymbol
-      datatype. Symbol has one optional attribute, subscript, for indicating
-      the subscript (formula units) of the chemical element.
+    """This element declares the content model for `Element` and is composed of the following elements.
+
+    - `Symbol` contains the symbol for the chemical element, which is one among those enumerated by the `ChemicalElementSymbol` datatype. `Symbol` has one optional attribute, `subscript`, for indicating the subscript (formula units) of the chemical element. `Symbol` must occur once and only once within the `Element` element. For additional information, see the documentation for the `ChemicalElementSymbol` datatype.
+    - `Concentration` contains the concentration of the element and may occur once or not at all within the `Element` element. For additional information, see the documentation for the `Concentration` element.
+    - `Notes` contains any additional information concerning the element and may occur once or not at all within the `Element` element.
+
+    `Symbol`:
+    - This element declares the content model for `Symbol`, which contains the symbol for the chemical element.
+    - The entry for `Symbol` is selected from among the strings enumerated by the `ChemicalElementSymbol` datatype.
+    - `Symbol` has one optional attribute, `subscript`, for indicating the subscript (formula units) of the chemical element.
     
     """
     __hash__ = GeneratedsSuper.__hash__
@@ -3746,18 +3519,11 @@ class Element(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Element
-
 
 class Form(GeneratedsSuper):
-    """Form --
-    *************************            Form            *************************
-    This element declares the content model for Form, which contains a
-    description of the form of the bulk material or component.
-    It also contains an element to describe the geometry of the the form and
-    an element for any notes.  For additional information, see the
-    documentation for the Geometry element
-    
+    """This element declares the content model for `Form`, which contains a description of the form of the bulk material or component.
+
+    It also contains an element to describe the geometry of the the form and an element for any notes.  For additional information, see the documentation for the `Geometry` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -3896,25 +3662,14 @@ class Form(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Form
-
 
 class Geometry(GeneratedsSuper):
-    """Geometry --
-    *************************        Geometry        *************************
-    This element declares the content model for Geometry, which contains
-    a description of the geometry of the bulk material, component or
-    specimen and is composed of the following elements.
-    Shape is a string describing the shape of the bulk material or
-    component and must occur once and only once within the Geometry
-    element.
-    Dimensions is a string describing the dimensions of the bulk material or
-    component and may occur once or not at all within the Geometry element.
-    Orientation  is a string describing the orientation of the bulk material or
-    component and may occur once or not at all within the Geometry element.
-    Notes contains any additional information concerning the geometry and
-    may occur once or not at all within the Geometry element.
-    
+    """This element declares the content model for `Geometry`, which contains a description of the geometry of the bulk material, component or specimen and is composed of the following elements.
+
+    - `Shape` is a string describing the shape of the bulk material or component and must occur once and only once within the `Geometry` element.
+    - `Dimensions` is a string describing the dimensions of the bulk material or component and may occur once or not at all within the `Geometry` element.
+    - `Orientation`  is a string describing the orientation of the bulk material or component and may occur once or not at all within the `Geometry` element.
+    - `Notes` contains any additional information concerning the geometry and may occur once or not at all within the `Geometry` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -4075,16 +3830,9 @@ class Geometry(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class Geometry
-
 
 class Glossary(GeneratedsSuper):
-    """Glossary --
-    *************************      Glossary       *************************
-    This element declares the content model for Glossary, which contains
-    descriptions of material and property terms used in the document.
-    Glossary must contain one or more Term elements.
-    
+    """This element declares the content model for `Glossary`, which contains descriptions of material and property terms used in the document. `Glossary` must contain one or more `GlossaryTerm` elements.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -4185,26 +3933,15 @@ class Glossary(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Term.append(obj_)
             obj_.original_tagname_ = 'Term'
-# end class Glossary
-
 
 class GlossaryTerm(GeneratedsSuper):
-    """GlossaryTerm --
-    *************************         GlossaryTerm          *************************
-    This element declares the content model for GlossaryTerm which is
-    composed of the following elements.
-    Name contains the term's name and has one optional attribute,
-    authority, for identifying an authoritative source of terms. Name must
-    occur once and only once within the Term element.
-    Definition contains the term's definition and must occur once and only
-    once within the Term element.
-    Abbreviation contains the term's abbreviations and may occur zero
-    or more times within the Term element.
-    Synonym contains the term's synonyms and may occur zero or more
-    times within the Term element.
-    Notes contains any additional information concerning the term and may
-    occur once or not at all within the Term element.
+    """This element declares the content model for `GlossaryTerm` which is composed of the following elements.
     
+    - `Name` contains the term's name and has one optional attribute, authority, for identifying an authoritative source of terms. Name must occur once and only once within the `GlossaryTerm` element.
+    - `Definition` contains the term's definition and must occur once and only once within the `GlossaryTerm` element.
+    - `Abbreviation` contains the term's abbreviations and may occur zero or more times within the `GlossaryTerm` element.
+    - `Synonym` contains the term's synonyms and may occur zero or more times within the `GlossaryTerm` element.
+    - `Notes` contains any additional information concerning the term and may occur once or not at all within the `GlossaryTerm` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -4399,20 +4136,13 @@ class GlossaryTerm(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class GlossaryTerm
-
 
 class Graphs(GeneratedsSuper):
-    """Graphs --
-    *************************          Graphs           *************************
-    This element declares the content model for Graphs, which must contain
-    one or more Graph elements.
-    Graph uses the W3C's Scalable Vector Graphics markup language (SVG)
-    for describing two dimensional graphics and allows for three types of
-    graphical objects: vector graphics shapes, images, and text. Graph must
-    occur one or more times within the Graphs element. For more information
-    concerning SVG, see the documentation at http://www.w3.org/TR/SVG/.
+    """This element declares the content model for `Graphs`, which must contain one or more `Graph` elements.
     
+    `Graph` uses the W3C's Scalable Vector Graphics markup language (SVG) for describing two dimensional graphics and allows for three types of graphical objects: vector graphics shapes, images, and text.
+    
+    `Graph` must occur one or more times within the `Graphs` element. For more information concerning SVG, see the documentation at http://www.w3.org/TR/SVG/.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -4513,43 +4243,20 @@ class Graphs(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Graph.append(obj_)
             obj_.original_tagname_ = 'Graph'
-# end class Graphs
-
 
 class Material(GeneratedsSuper):
-    """Material --
-    *************************                  Material                 *************************
-    This element declares the content model for Material, which contains
-    materials data. Material has three optional attributes.
-    The first attribute, id, may be used as an identification specifier for the
-    material, which is especially useful for complex systems such as
-    composite laminates.
-    The second attribute, layers, may be used to indicate the number of
-    layers in complex systems such as composite laminates.
-    The third attribute, local_frame_of_reference, may be used as an
-    identification specifier for the local material orientation relative to the
-    global frame of reference, which is especially useful for complex
-    systems such as anisotropic materials.
-    Material is composed of the following elements.
-    BulkDetails contains a description of the bulk material and must occur
-    once and only once within the Material element. For additional
-    information, see the documentation for the BulkDetails element.
-    ComponentDetails contains a description of a component within the
-    bulk material and may occur zero or more times within the Material
-    element. ComponentDetails may be used to describe complex materials
-    systems such as welds (e.g. the base metal, the heat affected zone,
-    and the weld metal) or composites (e.g. the whiskers, fibers, and
-    matrix of a fiber-reinforced composite material). For additional
-    information, see the documentation for the ComponentDetails
-    element.
-    Graphs contains descriptions of two dimensional graphics and may
-    occur once or not at all within the Material element. For additional
-    information, see the documentation for the Graphs element.
-    Glossary contains descriptions of the material and property terms
-    used in the document and may occur once or not at all within the
-    Material element. For additional information, see the documentation
-    for the Glossary element.
+    """This element declares the content model for `Material`, which contains materials data. `Material` has three optional attributes.
     
+    1. The first attribute, `id`, may be used as an identification specifier for the material, which is especially useful for complex systems such as composite laminates.
+    2. The second attribute, `layers`, may be used to indicate the number of layers in complex systems such as composite laminates.
+    3. The third attribute, `local_frame_of_reference`, may be used as an identification specifier for the local material orientation relative to the global frame of reference, which is especially useful for complex systems such as anisotropic materials.
+    
+    Material is composed of the following elements.
+    
+    - BulkDetails contains a description of the bulk material and must occur once and only once within the Material element. For additional information, see the documentation for the BulkDetails element.
+    - ComponentDetails contains a description of a component within the bulk material and may occur zero or more times within the Material element. ComponentDetails may be used to describe complex materials systems such as welds (e.g. the base metal, the heat affected zone, and the weld metal) or composites (e.g. the whiskers, fibers, and matrix of a fiber-reinforced composite material). For additional information, see the documentation for the ComponentDetails element.
+    - Graphs contains descriptions of two dimensional graphics and may occur once or not at all within the Material element. For additional information, see the documentation for the Graphs element.
+    - Glossary contains descriptions of the material and property terms used in the document and may occur once or not at all within the Material element. For additional information, see the documentation for the Glossary element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -4743,49 +4450,18 @@ class Material(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Glossary = obj_
             obj_.original_tagname_ = 'Glossary'
-# end class Material
-
 
 class Metadata(GeneratedsSuper):
-    """Metadata --
-    *************************                Metadata                 *************************
-    This element declares the content model for Metadata, which contains
-    descriptions of authorities, data sources, measurement techniques,
-    parameters, properties, material and component sources, specimens, and
-    test conditions. Metadata is composed of the following elements.
-    AuthorityDetails contains a description of authorities referenced from
-    the Specification and Name elements and may occur zero or more times
-    within the Metadata element. For additional information, see the
-    documentation for the AuthorityDetails element.
-    DataSourceDetails contains a description of a data source referenced
-    using the PropertyData element and may occur zero or more times within
-    the Metadata element. For additional information, see the documentation
-    for the DataSourceDetails element.
-    MeasurementTechniqueDetails contains a description of a measurement
-    technique referenced using the PropertyData element and may occur zero
-    or more times within the Metadata element. For additional information, see
-    the documentation for the MeasurementTechniqueDetails element.
-    ParameterDetails contains a description of a parameter referenced using
-    the PropertyData element and may occur zero or more times within the
-    Metadata element. For additional information, see the documentation for
-    the ParameterDetails element.
-    PropertyDetails contains a description of a property for which materials
-    data are encoded using the PropertyData element and may occur zero or
-    more times within the Metadata element. For additional information, see the
-    documentation for the PropertyDetails element.
-    SourceDetails contains a description of the source of a material or
-    component referenced using the Source element and may occur zero or
-    more times within the Metadata element. For additional information, see the
-    documentation for the SourceDetails element.
-    SpecimenDetails contains a description of a specimen referenced using
-    the PropertyData element and may occur zero or more times within the
-    Metadata element. For additional information, see the documentation for
-    the SpecimenDetails element.
-    TestCondtionDetails contains a description of the test condtion(s)
-    referenced using the PropertyData element and may occur zero or more
-    times within the	Metadata element. For additional information, see the
-    documentation for the TestCondtionDetails element.
-    
+    """This element declares the content model for `Metadata`, which contains descriptions of authorities, data sources, measurement techniques, parameters, properties, material and component sources, specimens, and test conditions. `Metadata` is composed of the following elements.
+
+    - `AuthorityDetails` contains a description of authorities referenced from the `Specification` and `Name` elements and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `AuthorityDetails` element.
+    - `DataSourceDetails` contains a description of a data source referenced using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `DataSourceDetails` element.
+    - `MeasurementTechniqueDetails` contains a description of a measurement technique referenced using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `MeasurementTechniqueDetails` element.
+    - `ParameterDetails` contains a description of a parameter referenced using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `ParameterDetails` element.
+    - `PropertyDetails` contains a description of a property for which materials data are encoded using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the Prope`r`tyDetails element.
+    - `SourceDetails` contains a description of the source of a material or component referenced using the Source element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `SourceDetails` element.
+    - `SpecimenDetails` contains a description of a specimen referenced using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `SpecimenDetails` element.
+    - `TestCondtionDetails` contains a description of the test condtion(s) referenced using the `PropertyData` element and may occur zero or more times within the `Metadata` element. For additional information, see the documentation for the `TestCondtionDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -5101,17 +4777,9 @@ class Metadata(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.TestConditionDetails.append(obj_)
             obj_.original_tagname_ = 'TestConditionDetails'
-# end class Metadata
-
 
 class Name(GeneratedsSuper):
-    """Name --
-    *************************                  Name                  *************************
-    This element declares the content model for Name, which contains a
-    string representing a name and has one optional attribute, authority,
-    for identifying an authoritative source of names in the context in which
-    the Name element is used.
-    
+    """This element declares the content model for `Name`, which contains a string representing a name and has one optional attribute, `authority`, for identifying an authoritative source of names in the context in which the `Name` element is used.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -5199,37 +4867,19 @@ class Name(GeneratedsSuper):
             self.authority = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class Name
-
 
 class ParameterValue(GeneratedsSuper):
-    """ParameterValue --
-    *************************           ParameterValue         *************************
-    This element declares the content model for ParameterValue, which
-    contains the value of a parameter. ParameterValue has two required
-    attributes.
-    The first attribute, parameter, references an id attribute specified in a
-    ParameterDetails element so that the descriptive details of the parameter
-    are tied to the value.
-    The second attribute, format, indicates the format of the value.  If used,
-    "mixed" indicates that the not all of the parameter values are of the same
-    type (e.g. a "No Break" value for an otherwise numeric set of Charpy
-    Izod test results).  If used, then the "format" attribute on each "Data"
-    item should be individually set.
-    ParameterValue  is composed of the following elements.
-    Data contains the property data and has one required attribute,
-    format, for indicating the format of the data. Data must occur once and only
-    once within the ParameterValue element.
-    Qualifier contains any qualifier(s) pertinent to the data in
-    ParameterValue(e.g.	"min," "max," etc.) and may occur zero or more times
-    within the PropertyData element.
-    Uncertainty contains the measurement uncertainty(ies) of the data in
-    ParameterValue and may occur once or not at all within the ParameterValue
-    element. For additional information, see the documentation for the
-    Uncertainty element.
-    Notes contains any additional information concerning the property
-    data and may occur once or not at all within the PropertyData element.
+    """This element declares the content model for `ParameterValue`, which contains the value of a parameter. `ParameterValue` has two required attributes.
+
+    1. The first attribute, `parameter`, references an id attribute specified in a `ParameterDetails` element so that the descriptive details of the parameter are tied to the value.
+    2. The second attribute, `format`, indicates the format of the value.  If used, "mixed" indicates that the not all of the parameter values are of the same type (e.g. a "No Break" value for an otherwise numeric set of Charpy Izod test results).  If used, then the "format" attribute on each "Data" item should be individually set.
     
+    `ParameterValue` is composed of the following elements.
+
+    - `Data` contains the property data and has one required attribute, format, for indicating the format of the data. `Data` must occur once and only once within the `ParameterValue` element.
+    - `Qualifier` contains any qualifier(s) pertinent to the data in `ParameterValue` (e.g. "min," "max," etc.) and may occur zero or more times within the `PropertyData` element.
+    - `Uncertainty` contains the measurement uncertainty(ies) of the data in `ParameterValue` and may occur once or not at all within the `ParameterValue` element. For additional information, see the documentation for the `Uncertainty` element.
+    - `Notes` contains any additional information concerning the property data and may occur once or not at all within the `PropertyData` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -5456,27 +5106,14 @@ class ParameterValue(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class ParameterValue
-
 
 class PhaseComposition(GeneratedsSuper):
-    """PhaseComposition --
-    *************************         PhaseComposition         *************************
-    This element declares the content model for PhaseComposition, which
-    contains a description of a phase that comprises the bulk material or
-    component and is composed of the following elements.
-    Name contains the name of the phase and has one optional attribute,
-    authority, for identifying an authoritative source of phase names. Name
-    must occur once and only once within the PhaseComposition element.
-    Concentration contains the concentration of the phase and may occur
-    once or not at all within the PhaseComposition element. For additional
-    information, see the documentation for the Concentration element.
-    PropertyData contains property data for the phase and may occur zero
-    or more times within the PhaseComposition element. For additional
-    information, see the documentation for the PropertyData element.
-    Notes contains any additional information concerning the phase and may
-    occur once or not at all within the PhaseComposition element.
-    
+    """This element declares the content model for `PhaseComposition`, which contains a description of a phase that comprises the bulk material or component and is composed of the following elements.
+
+    - `Name` contains the name of the phase and has one optional attribute, authority, for identifying an authoritative source of phase names. `Name` must occur once and only once within the `PhaseComposition` element.
+    - `Concentration` contains the concentration of the phase and may occur once or not at all within the `PhaseComposition` element. For additional information, see the documentation for the `Concentration` element.
+    - `PropertyData` contains property data for the phase and may occur zero or more times within the `PhaseComposition` element. For additional information, see the documentation for the `PropertyData` element.
+    - `Notes` contains any additional information concerning the phase and may occur once or not at all within the `PhaseComposition` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -5646,30 +5283,14 @@ class PhaseComposition(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class PhaseComposition
-
 
 class ProcessingDetails(GeneratedsSuper):
-    """ProcessingDetails --
-    *************************         ProcessingDetails       *************************
-    This element declares the content model for ProcessingDetails, which
-    contains a description of a processing step for the bulk material or
-    component. ProcessingDetails is composed of the following elements.
-    Name contains the name of the processing step and has one optional
-    attribute, authority, for identifying an authoritative source of processing
-    step names. Name must occur once and only once within the
-    ProcessingDetails element.
-    ParameterValue contains the value of a parameter under which the
-    processing step occurred and may occur zero or more times within the
-    ProcessingDetails element. For additional information, see the
-    documentation for the ParameterValue element.
-    Result is a string that contains a description of the outcome or result of the
-    processing step and may occur once or not at all within the
-    ProcessingDetails element.
-    Notes contains any additional information concerning the processing
-    step and may occur once or not at all within the ProcessingDetails
-    element.
-    
+    """This element declares the content model for `ProcessingDetails`, which contains a description of a processing step for the bulk material or component. `ProcessingDetails` is composed of the following elements.
+
+    - `Name` contains the name of the processing step and has one optional attribute, `authority`, for identifying an authoritative source of processing step names. Name must occur once and only once within the `ProcessingDetails` element.
+    - `ParameterValue` contains the value of a parameter under which the processing step occurred and may occur zero or more times within the `ProcessingDetails` element. For additional information, see the documentation for the `ParameterValue` element.
+    - `Result` is a string that contains a description of the outcome or result of the processing step and may occur once or not at all within the `ProcessingDetails` element.
+    - `Notes` contains any additional information concerning the processing step and may occur once or not at all within the `ProcessingDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -5841,59 +5462,27 @@ class ProcessingDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class ProcessingDetails
-
 
 class PropertyData(GeneratedsSuper):
-    """PropertyData --
-    *************************            PropertyData            *************************
-    This element declares the content model for PropertyData, which
-    contains property data. PropertyData has seven attributes.
-    The first attribute, property, is required and references an id attribute
-    specified in a PropertyDetails element so that the descriptive details for
-    the property are tied to the data found in the Data element.
-    The second attribute, technique, is optional and references an id attribute
-    Specified in a MeasurementTechniqueDetails element so that the
-    Descriptive details for the measurement technique are tied to the data found
-    In the Data element.
-    The third attribute, source, is optional and references an id attribute
-    specified in a DataSourceDetails element so that the descriptive details for
-    the data source are tied to the data found in the Data element.
-    The fourth attribute, specimen, is optional and references an id attribute
-    specified in a SpecimenDetails element so that the descriptive details for
-    the specimen are tied to the data found in the Data element.
-    The fifth attribute, test, is optional and references an id attribute
-    specified in a TestCondtionDetails element so that the descriptive details for
-    the test condition(s) are tied to the data found in the Data element.
-    The sixth attribute, delimiter, specifies the delimiter that separates multiple
-    values in the Data, Qualifier, Uncertainty, and ParameterValue
-    elements.  The default value is a comma (',')
-    The seventh attribute, quote, specifies the string that is used to quote values
-    in the Data, Qualifier, Uncertainty and ParameterValue elements.  The
-    default value is a null string, which is equivalent to saying that the values
-    are not quoted.
-    PropertyData is composed of the following elements.
-    Data contains the property data and has one required attribute,
-    format, for indicating the format of the data. Data must occur once and only
-    once within the PropertyData element.
-    Qualifier contains any qualifier(s) pertinent to the data in Data (e.g.
-    "min," "max," etc.) and may occur once or not at all within the
-    PropertyData element.
-    Uncertainty contains the measurement uncertainty(ies) of the data in
-    Data and may occur once or not at all within the PropertyData
-    element. For additional information, see the documentation for the
-    Uncertainty element.
-    ParameterValue contains the value(s) of a parameter under which
-    the data were determined and may occur zero or more times within
-    the 	PropertyData element. For additional information, see the
-    documentation for the ParameterValue element.
-    Notes contains any additional information concerning the property
-    data and may occur once or not at all within the PropertyData element.
-    Note -	Multiple entries in the Data, Qualifier, Uncertainty Value, and
-    ParameterValue elements must be comma delimited and
-    synchronized across elements, i.e., the number of entries
-    in each of these four elements must be equal.
+    """This element declares the content model for `PropertyData`, which contains property data. `PropertyData` has seven attributes.
+
+    1. The first attribute, `property`, is required and references an id attribute specified in a `PropertyDetails` element so that the descriptive details for the property are tied to the data found in the `Data` element.
+    2. The second attribute, `technique`, is optional and references an id attribute Specified in a `MeasurementTechniqueDetails` element so that the Descriptive details for the measurement technique are tied to the data found In the `Data` element.
+    3. The third attribute, `source`, is optional and references an id attribute specified in a `DataSourceDetails` element so that the descriptive details for the data source are tied to the data found in the `Data` element.
+    4. The fourth attribute, `specimen`, is optional and references an id attribute specified in a `SpecimenDetails` element so that the descriptive details for the specimen are tied to the data found in the `Data` element.
+    5. The fifth attribute, `test`, is optional and references an id attribute specified in a `TestCondtionDetails` element so that the descriptive details for the test condition(s) are tied to the data found in the `Data` element.
+    6. The sixth attribute, `delimiter`, specifies the delimiter that separates multiple values in the `Data`, `Qualifier`, `Uncertainty`, and `ParameterValue` elements.  The default value is a comma (',').
+    7. The seventh attribute, `quote`, specifies the string that is used to quote values in the `Data`, `Qualifier`, `Uncertainty` and `ParameterValue` elements.  The default value is a null string, which is equivalent to saying that the values are not quoted.
+
+    `PropertyData` is composed of the following elements.
     
+    - `Data` contains the property data and has one required attribute, `format`, for indicating the format of the data. `Data` must occur once and only once within the `PropertyData` element.
+    - `Qualifier` contains any qualifier(s) pertinent to the data in Data (e.g. "min," "max," etc.) and may occur once or not at all within the `PropertyData` element.
+    - `Uncertainty` contains the measurement uncertainty(ies) of the data in `Data` and may occur once or not at all within the `PropertyData` element. For additional information, see the documentation for the Uncertainty element.
+    - `ParameterValue` contains the value(s) of a parameter under which the data were determined and may occur zero or more times within the `PropertyData` element. For additional information, see the documentation for the `ParameterValue` element.
+    - `Notes` contains any additional information concerning the property data and may occur once or not at all within the `PropertyData` element.
+    
+    Note -	Multiple entries in the `Data`, `Qualifier`, `UncertaintyValue`, and `ParameterValue` elements must be comma delimited and synchronized across elements, i.e., the number of entries in each of these four elements must be equal.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6219,16 +5808,9 @@ class PropertyData(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class PropertyData
-
 
 class Source(GeneratedsSuper):
-    """Source --
-    *************************                 Source                *************************
-    This element declares the content model for Source, which contains
-    an id attribute specified in a SourceDetails element representing
-    the source of the bulk material or component
-    
+    """This element declares the content model for `Source`, which contains an `id` attribute specified in a `SourceDetails` element representing the source of the bulk material or component.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6314,17 +5896,9 @@ class Source(GeneratedsSuper):
             self.source = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class Source
-
 
 class Specification(GeneratedsSuper):
-    """Specification --
-    *************************            Specification             *************************
-    This element declares the content model for Specification, which
-    contains a string representing the specification for the bulk material or
-    component and has one optional attribute, authority, for identifying an
-    authoritative source of specifications.
-    
+    """This element declares the content model for `Specification`, which contains a string representing the specification for the bulk material or component and has one optional attribute, `authority`, for identifying an authoritative source of specifications.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6412,36 +5986,20 @@ class Specification(GeneratedsSuper):
             self.authority = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class Specification
-
 
 class Uncertainty(GeneratedsSuper):
-    """Uncertainty --
-    *************************              Uncertainty             *************************
-    This element declares the content model for Uncertainty, which
-    contains a description of the measurement uncertainty of the data.
-    Uncertainty has 1 optional attributes:
-    Name is a description of the nature of the uncertainty value, for example
-    '6 sigma', 'Gaussian' or '2 std dev.'
-    Uncertainty is composed of the following elements.
-    Value contains the value of the uncertainty and has one required
-    attribute, format, for indicating the format of the value. Value must occur
-    once and only once within the Uncertainty element.
-    Units contains the units for the value of the uncertainty and must occur
-    once and only once within the Uncertainty element. For additional
-    information, see the documentation for the Units element.
-    Percentile is a  value indicating the percentage of the data population
-    that have values less than or equal to that expressed by the Uncertainty
-    value.  Percentile can occur sero or more times.  If Percentile is not given
-    then Value is interpreted as being an equal and unspecified deviation
-    above and below the Property value(s).
-    An uncertainty of 2 standard deviations below  the mean for a
-    normally distributed dataset would have a uncertainty percentile of 5%,
-    and 2 standard deviations above the mean would be 95%.
-    Notes contains any additional information concerning the uncertainty,
-    such as a description of the evaluation of the uncertainty, and may
-    occur once or not at all within the Uncertainty element.
+    """This element declares the content model for `Uncertainty`, which contains a description of the measurement uncertainty of the data.
     
+    `Uncertainty` has 1 optional attributes:
+    
+    1. `Name` is a description of the nature of the uncertainty value, for example '6 sigma', 'Gaussian' or '2 std dev.'
+    
+    Uncertainty is composed of the following elements.
+    
+    - `Value` contains the value of the uncertainty and has one required attribute, format, for indicating the format of the value. `Value` must occur once and only once within the `Uncertainty` element.
+    - `Units` contains the units for the value of the uncertainty and must occur once and only once within the `Uncertainty` element. For additional information, see the documentation for the `Units` element.
+    - `Percentile` is a value indicating the percentage of the data population that have values less than or equal to that expressed by the `Uncertainty` value.  `Percentile` can occur zero or more times.  If `Percentile` is not given then `Value` is interpreted as being an equal and unspecified deviation above and below the property value(s). An uncertainty of 2 standard deviations below  the mean for a normally distributed dataset would have a uncertainty percentile of 5%, and 2 standard deviations above the mean would be 95%.
+    - `Notes` contains any additional information concerning the uncertainty, such as a description of the evaluation of the uncertainty, and may occur once or not at all within the `Uncertainty` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6689,26 +6247,19 @@ class Uncertainty(GeneratedsSuper):
             self.Scale_nsprefix_ = child_.prefix
             # validate type ScaleType
             self.validate_ScaleType(self.Scale)
-# end class Uncertainty
-
 
 class Unit(GeneratedsSuper):
-    """Unit --
-    *************************                   Unit                    *************************
-    This element declares the content model for Unit, which contains a
-    unit and has two optional attributes.
-    The first attribute, power, is used to indicate the exponent for Unit.
-    The second attribute, description, is used to describe Unit.
-    Note -	Multiple Unit elements are multiplied together to form units.
-    Division is specified by setting the power attribute of Unit
-    equal to "-1." For additional information, see the
-    documentation for the Units element.
-    Unit has a choice between two elements:
-    Name is the Name of the unit, and can occur only once in the Unit
-    element.
-    Currency is the CurrencyCode for the unit, if it is a unit expressing
-    cost in an ISO 4217 recognised currency.
+    """This element declares the content model for `Unit`, which contains a unit and has two optional attributes.
+
+    1. The first attribute, `power`, is used to indicate the exponent for `Unit`.
+    2. The second attribute, `description`, is used to describe `Unit`.
     
+    Note -	Multiple `Unit` elements are multiplied together to form units. Division is specified by setting the `power` attribute of `Unit` equal to "-1." For additional information, see the documentation for the `Units` element.
+    
+    `Unit` has a choice between two elements:
+
+    - `Name` is the `Name` of the unit, and can occur only once in the Unit element.
+    - `Currency` is the `CurrencyCode` for the unit, if it is a unit expressing cost in an ISO 4217 recognised currency. 
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6869,16 +6420,9 @@ class Unit(GeneratedsSuper):
             self.Currency_nsprefix_ = child_.prefix
             # validate type CurrencyCode
             self.validate_CurrencyCode(self.Currency)
-# end class Unit
-
 
 class Unitless(GeneratedsSuper):
-    """Unitless --
-    *************************                 Unitless               *************************
-    This element declares the content model for Unitless, which is an empty
-    element used whenever a property, parameter, or uncertainty value has
-    no units.
-    
+    """This element declares the content model for `Unitless`, which is an empty element used whenever a property, parameter, or uncertainty value has no units.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -6952,28 +6496,20 @@ class Unitless(GeneratedsSuper):
         pass
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class Unitless
-
 
 class Units(GeneratedsSuper):
-    """Units --
-    *************************                   Units                  *************************
-    This element declares the content model for Units, which contains units
-    and has four optional attributes.
-    The first attribute, system, is used to indicate the units system, such as
-    "SI."
-    The second attribute, factor, is used to indicate a constant multiplier in
-    floating point format.
-    The third attribute, name, is used to indicate the name of the units
-    The fourth attribute, description, is used to describe the units.
-    Units is composed of the following elements.
-    Unit contains a unit and must occur one or more times within the Units
-    element. For additional information, see the documentation for the Unit
-    element.
-    Note -	Multiple Unit elements are multiplied together to form the
-    units. Division is specified by using setting the power
-    attribute of Unit equal to "-1."
+    """This element declares the content model for `Units`, which contains units and has four optional attributes.
+
+    1. The first attribute, `system`, is used to indicate the units system, such as "SI."
+    2. The second attribute, `factor`, is used to indicate a constant multiplier in floating point format.
+    3. The third attribute, `name`, is used to indicate the name of the units
+    4. The fourth attribute, `description`, is used to describe the units.
     
+    `Units` is composed of the following elements.
+    
+    - `Unit` contains a unit and must occur one or more times within the `Units` element. For additional information, see the documentation for the `Unit` element.
+    
+    Note -	Multiple `Unit` elements are multiplied together to form the units. Division is specified by using setting the `power` attribute of `Unit` equal to "-1."
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7182,16 +6718,9 @@ class Units(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Unit.append(obj_)
             obj_.original_tagname_ = 'Unit'
-# end class Units
-
 
 class Value(GeneratedsSuper):
-    """Value --
-    *************************                  Value                  *************************
-    This element declares the content model for value, which contains a string
-    representing a value. Value has one required attribute, format, for indicating
-    the format of the value.
-    
+    """This element declares the content model for `Value`, which contains a string representing a value. `Value` has one required attribute, `format`, for indicating the format of the value. 
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7293,26 +6822,16 @@ class Value(GeneratedsSuper):
             self.validate_DataFormat(self.format)    # validate type DataFormat
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class Value
-
 
 class AuthorityDetails(GeneratedsSuper):
-    """AuthorityDetails --
-    *************************         AuthorityDetails             *************************
-    This element declares the content model for AuthorityDetails, which
-    contains a description of an authority referenced by other elements, such
-    as the Specification and Name elements.  An authority is typically an
-    organisation that is the authoritative source of information about the
-    element that is referencing it.
-    AuthorityDetails has one required attribute, id, which may be
-    arbitrarily assigned but must be unique among id attributes assigned
-    elsewhere in a MatML document.
-    AuthorityDetails additionally has two elements, Name and Notes.
-    Name contains the name of the Authority.  Name must occur once and
-    only once within the AuthorityDetails element.
-    Notes contains any additional information concerning the parameter and
-    may occur once or not at all within the AuthorityDetails element.
+    """This element declares the content model for `AuthorityDetails`, which contains a description of an authority referenced by other elements, such as the `Specification` and `Name` elements.  An authority is typically an organisation that is the authoritative source of information about the element that is referencing it.
     
+    `AuthorityDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `AuthorityDetails` additionally has two elements, `Name` and `Notes`.
+    
+    - `Name` contains the name of the Authority.  `Name` must occur once and only once within the `AuthorityDetails` element.
+    - `Notes` contains any additional information concerning the parameter and may occur once or not at all within the `AuthorityDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7447,27 +6966,18 @@ class AuthorityDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class AuthorityDetails
-
 
 class DataSourceDetails(GeneratedsSuper):
-    """DataSourceDetails --
-    *************************        DataSourceDetails          *************************
-    This element declares the content model for DataSourceDetails, which
-    contains a description of a data source referenced by the PropertyData
-    element. DataSourceDetails has one required attribute, id, which may be
-    arbitrarily assigned but must be unique among id attributes assigned
-    elsewhere in a MatML document. DataSourceDetails also has one
-    optional attribute, type, for specifying the type of the data source
-    (examples include "unpublished report," "journal," "handbook," etc.)
-    DataSourceDetails is composed of the following elements.
-    Name contains the name of the data source and has one optional
-    attribute, authority, for identifying an authoritative source of data
-    source names. Name must occur once and only once within the
-    DataSourceDetails element.
-    Notes contains any additional information concerning the data source
-    and may occur once or not at all within the DataSourceDetails element.
+    """This element declares the content model for `DataSourceDetails`, which contains a description of a data source referenced by the `PropertyData` element.
     
+    `DataSourceDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `DataSourceDetails` also has one optional attribute, `type`, for specifying the type of the data source (examples include "unpublished report," "journal," "handbook," etc.)
+    
+    `DataSourceDetails` is composed of the following elements.
+
+    - Name contains the name of the data source and has one optional attribute, authority, for identifying an authoritative source of data source names. Name must occur once and only once within the DataSourceDetails element.
+    - Notes contains any additional information concerning the data source and may occur once or not at all within the DataSourceDetails element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7616,26 +7126,16 @@ class DataSourceDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class DataSourceDetails
-
 
 class MeasurementTechniqueDetails(GeneratedsSuper):
-    """MeasurementTechniqueDetails --
-    ************************* MeasurementTechniqueDetails *************************
-    This element declares the content model for MeasurementTechniqueDetails,
-    which contains a description of a measurement technique referenced by
-    the PropertyData element. MeasurementTechniqueDetails has one required
-    attribute, id, which may be arbitrarily assigned but must be unique among
-    id attributes assigned elsewhere in a MatML document.
-    MeasurementTechniqueDetails is composed of the following elements.
-    Name contains the name of the measurement technique and has one
-    optional attribute, authority, for identifying an authoritative source of
-    measurement techniques. Name must occur once and only once within the
-    MeasurementTechniqueDetails element.
-    Notes contains any additional information concerning the measurement
-    technique, such as a description of the technique, and may occur once or
-    not at all within the MeasurementTechniqueDetails element.
+    """This element declares the content model for `MeasurementTechniqueDetails`, which contains a description of a measurement technique referenced by the `PropertyData` element.
     
+    `MeasurementTechniqueDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `MeasurementTechniqueDetails` is composed of the following elements.
+    
+    - `Name` contains the name of the measurement technique and has one optional attribute, `authority`, for identifying an authoritative source of measurement techniques. `Name` must occur once and only once within the `MeasurementTechniqueDetails` element.
+    - `Notes` contains any additional information concerning the measurement technique, such as a description of the technique, and may occur once or not at all within the `MeasurementTechniqueDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7770,29 +7270,17 @@ class MeasurementTechniqueDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class MeasurementTechniqueDetails
-
 
 class ParameterDetails(GeneratedsSuper):
-    """ParameterDetails --
-    *************************         ParameterDetails           *************************
-    This element declares the content model for ParameterDetails, which
-    contains a description of a parameter referenced by the ParameterValue
-    element. ParameterDetails has one required attribute, id, which may be
-    arbitrarily assigned but must be unique among id attributes assigned
-    elsewhere in a MatML document. ParameterDetails is composed of
-    the following elements.
-    Name contains the name of the parameter and has one optional attribute,
-    authority, for identifying an authoritative source of parameter names.
-    Name must occur once and only once within the ParameterDetails
-    element.
-    Units and Unitless are mutually exclusive elements for describing the
-    parameter's units. Units or Unitless must occur once and only once
-    within the ParameterDetails element. For additional information, see the
-    documentation for the Units and Unitless elements.
-    Notes contains any additional information concerning the parameter and
-    may occur once or not at all within the ParameterDetails element.
+    """This element declares the content model for `ParameterDetails`, which contains a description of a parameter referenced by the `ParameterValue` element.
     
+    `ParameterDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `ParameterDetails` is composed of the following elements.
+    
+    - `Name` contains the name of the parameter and has one optional attribute, `authority`, for identifying an authoritative source of parameter names. `Name` must occur once and only once within the `ParameterDetails` element.
+    - `Units` and `Unitless` are mutually exclusive elements for describing the parameter's units. `Units` or `Unitless` must occur once and only once within the `ParameterDetails` element. For additional information, see the documentation for the `Units` and `Unitless` elements.
+    - `Notes` contains any additional information concerning the parameter and may occur once or not at all within the `ParameterDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -7959,31 +7447,19 @@ class ParameterDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class ParameterDetails
-
 
 class PropertyDetails(GeneratedsSuper):
-    """PropertyDetails --
-    *************************           PropertyDetails            *************************
-    This element declares the content model for PropertyDetails, which
-    contains a description of a property referenced by the PropertyData
-    element. PropertyDetails has one required attribute, id, which may be
-    arbitrarily assigned but must be unique among id attributes assigned
-    elsewhere in a MatML document. PropertyDetails also has one optional
-    attribute, type, for specifying the type of the property (examples include
-    "thermal," "mechanical," "electrical," etc.) PropertyDetails is composed of
-    the following elements.
-    Name contains the name of the property and has one optional attribute,
-    authority, for identifying an authoritative source of property names.
-    Name must occur once and only once within the PropertyDetails
-    element.
-    Units and Unitless are mutually exclusive elements for describing the
-    property's units. Units or Unitless must occur once and only once within
-    the PropertyDetails element. For additional information, see the
-    documentation for the Units and Unitless elements.
-    Notes contains any additional information concerning the property and
-    may occur once or not at all within the PropertyDetails element.
+    """This element declares the content model for `PropertyDetails`, which contains a description of a property referenced by the `PropertyData` element.
     
+    `PropertyDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `PropertyDetails` also has one optional attribute, `type`, for specifying the type of the property (examples include "thermal," "mechanical," "electrical," etc.).
+    
+    `PropertyDetails` is composed of the following elements.
+    
+    - `Name` contains the name of the property and has one optional attribute, `authority`, for identifying an authoritative source of property names. `Name` must occur once and only once within the `PropertyDetails` element.
+    - `Units` and `Unitless` are mutually exclusive elements for describing the property's units. `Units` or `Unitless` must occur once and only once within the `PropertyDetails` element. For additional information, see the documentation for the `Units` and `Unitless` elements.
+    - `Notes` contains any additional information concerning the property and may occur once or not at all within the `PropertyDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -8164,19 +7640,13 @@ class PropertyDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class PropertyDetails
-
 
 class SourceDetails(GeneratedsSuper):
-    """SourceDetails --
-    *************************        SourceDetails          *************************
-    This element declares the content model for SourceDetails, which
-    contains the name of the source of the component.
-    Name contains the name of the source and has one optional
-    attribute, Notes.
-    Notes contains any additional information concerning the data source
-    and may occur once or not at all within the DataSourceDetails element.
+    """This element declares the content model for `SourceDetails`, which contains the name of the source of the component.
     
+    `Name` contains the name of the source and has one optional attribute, `Notes`.
+    
+    `Notes` contains any additional information concerning the data source and may occur once or not at all within the `DataSourceDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -8325,33 +7795,19 @@ class SourceDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class SourceDetails
-
 
 class SpecimenDetails(GeneratedsSuper):
-    """SpecimenDetails --
-    *************************         SpecimenDetails            *************************
-    This element declares the content model for SpecimenDetails, which
-    contains a description of a specimen referenced by the PropertyData
-    element. SpecimenDetails has one required attribute, id, which may be
-    arbitrarily assigned but must be unique among id attributes assigned
-    elsewhere in a MatML document. SpecimenDetails also has one optional
-    attribute, type, for specifying the
-    type of the specimen (examples include
-    "cylindrical," "rectangular," "full cross-section," "pressed," etc.)
-    SpecimenDetails is composed of the following elements.
-    SpecimenDetails also has 3 optional elements, Name, Geometry, and Notes.
-    Name contains the name of the specimen and has one optional
-    attribute, authority, for identifying an authoritative source of specimen
-    names. Name may occur once or not at all within the SpecimenDetails
-    element.
-    Geometry describes the dimensions of the Component.  For
-    additional information, see the documentation for the Geometry type.
-    Geometry may occur once or not at all within the SpecimenDetails
-    element.
-    Notes contains any additional information concerning the specimen and
-    may occur once or not at all within the SpecimenDetails element.
+    """This element declares the content model for `SpecimenDetails`, which contains a description of a specimen referenced by the `PropertyData` element.
     
+    `SpecimenDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `SpecimenDetails` also has one optional attribute, `type`, for specifying the type of the specimen (examples include "cylindrical," "rectangular," "full cross-section," "pressed," etc.)
+    
+    `SpecimenDetails` is composed of the following elements. `SpecimenDetails` also has 3 optional elements, `Name`, `Geometry`, and `Notes`.
+
+    - `Name` contains the name of the specimen and has one optional attribute, `authority`, for identifying an authoritative source of specimen names. `Name` may occur once or not at all within the `SpecimenDetails` element.
+    - `Geometry` describes the dimensions of the Component.  For additional information, see the documentation for the `Geometry` type. `Geometry` may occur once or not at all within the `SpecimenDetails` element.
+    - `Notes` contains any additional information concerning the specimen and may occur once or not at all within the `SpecimenDetails` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -8516,27 +7972,16 @@ class SpecimenDetails(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.Geometry = obj_
             obj_.original_tagname_ = 'Geometry'
-# end class SpecimenDetails
-
 
 class TestConditionDetails(GeneratedsSuper):
-    """TestConditionDetails --
-    *************************       TestConditionDetails        *************************
-    This element declares the content model for TestConditionDetails, which
-    contains a description of the test conditions referenced by the
-    PropertyData element. TestConditionDetails has one required attribute, id,
-    which may be arbitrarily assigned but must be unique among id attributes
-    assigned elsewhere in a MatML document.
-    TestConditionDetails has two optional elements, ParameterValue and
-    Notes.
-    ParameterValue contains the value(s) of a parameter, i.e., a test
-    condition, and may occur zero or more times within
-    the TestConditionDetails element. For additional information, see the
-    documentation for the ParameterValue element.
-    Notes contains any additional information concerning the test
-    conditions and may occur once or not at all within the
-    TestConditionDetails element.
+    """This element declares the content model for `TestConditionDetails`, which contains a description of the test conditions referenced by the `PropertyData` element.
     
+    `TestConditionDetails` has one required attribute, `id`, which may be arbitrarily assigned but must be unique among `id` attributes assigned elsewhere in a MatML document.
+    
+    `TestConditionDetails` has two optional elements, `ParameterValue` and `Notes`.
+
+    - `ParameterValue` contains the value(s) of a parameter, i.e., a test condition, and may occur zero or more times within the `TestConditionDetails` element. For additional information, see the documentation for the `ParameterValue` element.
+    - `Notes` contains any additional information concerning the test conditions and may occur once or not at all within the `TestConditionDetails` element. 
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -8686,8 +8131,6 @@ class TestConditionDetails(GeneratedsSuper):
             self.Notes_nsprefix_ = child_.prefix
             # validate type Notes
             self.validate_Notes(self.Notes)
-# end class TestConditionDetails
-
 
 class ParentMaterialType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
@@ -8774,18 +8217,11 @@ class ParentMaterialType(GeneratedsSuper):
             self.id = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class ParentMaterialType
-
 
 class SymbolType(GeneratedsSuper):
-    """SymbolType --
-    *************************       Symbol        *************************
-    This element declares the content model for Symbol, which contains
-    the symbol for the chemical element. The entry for Symbol is selected
-    from among the strings enumerated by the ChemicalElementSymbol
-    datatype. Symbol has one optional attribute, subscript, for indicating
-    the subscript (formula units) of the chemical element.
+    """This element declares the content model for `Symbol`, which contains the symbol for the chemical element. The entry for `Symbol` is selected from among the strings enumerated by the `ChemicalElementSymbol` datatype.
     
+    `Symbol` has one optional attribute, `subscript`, for indicating the subscript (formula units) of the chemical element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -8888,8 +8324,6 @@ class SymbolType(GeneratedsSuper):
             self.subscript = value
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class SymbolType
-
 
 class GraphType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
@@ -8982,8 +8416,6 @@ class GraphType(GeneratedsSuper):
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         content_ = self.gds_build_any(child_, 'GraphType')
         self.anytypeobjs_.append(content_)
-# end class GraphType
-
 
 class DataType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
@@ -9114,12 +8546,6 @@ class DataType(GeneratedsSuper):
             self.validate_DataFormat(self.format)    # validate type DataFormat
     def _buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class DataType
-
-#
-# End data representation classes.
-#
-
 
 GDSClassesMapping = {
 }
@@ -9314,10 +8740,7 @@ if __name__ == '__main__':
 RenameMappings_ = {
 }
 
-#
-# Mapping of namespaces to types defined in them
-# and the file in which each is defined.
-# simpleTypes are marked "ST" and complexTypes "CT".
+# Mapping of namespaces to types defined in them and the file in which each is defined. simpleTypes are marked "ST" and complexTypes "CT".
 NamespaceToDefMappings_ = {}
 
 __all__ = [

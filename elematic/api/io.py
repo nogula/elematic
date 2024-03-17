@@ -1,5 +1,5 @@
 import sys
-from . import MatML_api as mapi
+from . import MatML_api
 
 
 def import_xml(inputFile):
@@ -11,9 +11,9 @@ def import_xml(inputFile):
     Returns:
         elematic.api.MatML_api.MatML_doc: the root element of the MatML data
     """
-    doc = mapi.parsexml_(inputFile)
+    doc = MatML_api.parsexml_(inputFile)
     rootNode = doc.getroot()
-    rootObject = mapi.MatML_Doc.factory()
+    rootObject = MatML_api.MatML_Doc.factory()
     rootObject.build(rootNode)
     doc = None
     return rootObject
