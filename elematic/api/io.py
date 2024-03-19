@@ -113,8 +113,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # ("TRUE") or exclusive ("FALSE").
                 dimension_string = str(cell_values[0])
                 dimension_string += " ≤ thickness" if cell_values[1] == "TRUE" else " < thickness"
-                dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
-                dimension_string += str(cell_values[2])
+                if len(cell_values) == 4:
+                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
                 dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
@@ -137,8 +138,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # ("TRUE") or exclusive ("FALSE").
                 dimension_string = str(cell_values[0])
                 dimension_string += " ≤ area" if cell_values[1] == "TRUE" else " < area"
-                dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
-                dimension_string += cell_values[2]
+                if len(cell_values) == 4:
+                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += cell_values[2]
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
                 dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
@@ -161,8 +163,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # ("TRUE") or exclusive ("FALSE").
                 dimension_string = str(cell_values[0])
                 dimension_string += " ≤ width" if cell_values[1] == "TRUE" else " < width"
-                dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
-                dimension_string += cell_values[2]
+                if len(cell_values) == 4:
+                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += cell_values[2]
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
                 dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
@@ -389,26 +392,6 @@ def _convert_list_to_string(data:list) -> list[str,str]:
     # Otherwise treat float and int types the same
     elif isinstance(data[0],float|int):
         return [",".join(map(str,data)),"float"]
-    
-# def _get_property_metadata_info(
-#         property:str,
-#         workbook:openpyxl.Workbook,
-#         worksheet_name:str
-#     ) -> list[str,str]:
-#     """Gets the name and unit string of a property provided the property ID and
-#     workbook
-
-#     Args:
-#         property (str): _description_
-#         workbook (openpyxl.Workbook): _description_
-#         worksheet_name (str): _description_
-
-#     Returns:
-#         list[str,str]: the name of the property along with a string
-#         representation of its units.
-#     """
-
-#     if property.endswith("_01"): property.strip("_01")
     
 def _form_units(unit_string:str) -> MatML_api.Units:
     units = MatML_api.Units()
