@@ -10,7 +10,7 @@
 	Modified 16 July 2004 by Craig Seymour, Granta Design to match MatML Version 3.1
 	******************************************************************************************************************************	
 -->
-<MatML_Doc xsi:noNamespaceSchemaLocation="matml31.xsd">
+<MatML_Doc>
 	<Material>
 		<BulkDetails>
 			<Name authority="AAADS">1350</Name>
@@ -93,13 +93,13 @@
 			<Term>
 				<Name>H18</Name>
 				<Definition>
-					"H18" is a code from The Aluminum Association Temper Designation System. The H is defined as "strain-hardened (wrought products only). The 1 applies to products that are strain-hardened to obtain the desired strength without supplementary thermal treatment. The 8 indicates the degree of strain-hardening and is assigned to the hardest tempers normally produced.
+"H18" is a code from The Aluminum Association Temper Designation System. The H is defined as "strain-hardened (wrought products only). The 1 applies to products that are strain-hardened to obtain the desired strength without supplementary thermal treatment. The 8 indicates the degree of strain-hardening and is assigned to the hardest tempers normally produced.
 				</Definition>
 			</Term>
 			<Term>
 				<Name>1350</Name>
 				<Definition>
-					"1350" is a code from The Aluminum Association Alloy Designation System. The first digit of the code represents the principal alloying constitutent(s). The second digit indicates variations of the initial alloy. The third and fourth digits indicate individual alloy variations (the numbers have no significance but are unique). 1350 is an alloy that is pure AL (99.00% or greater). For further details, contact The Aluminum Association, 900 19th Street, N.W., Washington, D.C. 20006.
+"1350" is a code from The Aluminum Association Alloy Designation System. The first digit of the code represents the principal alloying constitutent(s). The second digit indicates variations of the initial alloy. The third and fourth digits indicate individual alloy variations (the numbers have no significance but are unique). 1350 is an alloy that is pure AL (99.00% or greater). For further details, contact The Aluminum Association, 900 19th Street, N.W., Washington, D.C. 20006.
 				</Definition>
 			</Term>
 		</Glossary>
@@ -110,10 +110,10 @@
 		</AuthorityDetails>
 		<DataSourceDetails id="ds1" type="handbook, typical data">
 			<Name>
-				"Properties of aluminum alloys : tensile, creep, and fatigue data at high and low temperatures" / edited by J. Gilbert Kaufman.
+"Properties of aluminum alloys : tensile, creep, and fatigue data at high and low temperatures" / edited by J. Gilbert Kaufman.
 			</Name>
 			<Notes>
-				Plus (+) indicates tension; minus (-) indicates compression.
+Plus (+) indicates tension; minus (-) indicates compression.
 			</Notes>
 		</DataSourceDetails>
 		<MeasurementTechniqueDetails id="mt1">
@@ -123,7 +123,7 @@
 			<Name>Stress Ratio</Name>
 			<Unitless/>
 			<Notes>
-				Stress Ratio (R) = (minimum stress)/(maximum stress)
+Stress Ratio (R) = (minimum stress)/(maximum stress)
 			</Notes>
 		</ParameterDetails>
 		<ParameterDetails id="pa2">
