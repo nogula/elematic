@@ -21,6 +21,7 @@ classifiers = [
 dependencies = [
     "lxml",
     "six",
+    "openpyxl",
 ]
 
 [project.urls]
