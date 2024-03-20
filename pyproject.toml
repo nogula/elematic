@@ -4,12 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "elematic"
-version = "0.0.1"
-description = "Material information management"
+version = "1.0.0"
+description = "Material information management via MatML for Python"
 readme = "readme.md"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Noah Gula", email = "noahrgula@gmail.com"}
+    {name = "Noah Gula"}
 ]
 keywords = ["materials", "information", "management", "MatML"]
 classifiers = [
