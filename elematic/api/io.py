@@ -140,7 +140,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 dimension_string += " ≤ area" if cell_values[1] == "TRUE" else " < area"
                 if len(cell_values) == 4:
                     dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
-                    dimension_string += cell_values[2]
+                    dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
                 dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
@@ -165,7 +165,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 dimension_string += " ≤ width" if cell_values[1] == "TRUE" else " < width"
                 if len(cell_values) == 4:
                     dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
-                    dimension_string += cell_values[2]
+                    dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
                 dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
@@ -419,7 +419,7 @@ def _form_units(unit_string:str) -> MatML_api.Units:
         units.add_Unit(MatML_api.Unit(
             power=unit_power,
             description=unit_name+"^"+unit_power,
-            Name=MatML_api.Name(valueOf_=str(unit_name))
+            Name=str(unit_name)
             )
         )
     
@@ -440,7 +440,7 @@ def _form_units(unit_string:str) -> MatML_api.Units:
             units.add_Unit(MatML_api.Unit(
                 power=unit_power,
                 description=unit_name+"^"+unit_power,
-                Name=MatML_api.Name(valueOf_=str(unit_name))
+                Name=str(unit_name)
                 )
             )
 
