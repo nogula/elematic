@@ -6379,7 +6379,7 @@ class Unit(GeneratedsSuper):
         if self.Name is not None:
             namespaceprefix_ = self.Name_nsprefix_ + ':' if (UseCapturedNS_ and self.Name_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Name.valueOf_), input_name='Name')), namespaceprefix_ , eol_))
+            outfile.write('<%sName>%s</%sName>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.Name), input_name='Name')), namespaceprefix_ , eol_))
         if self.Currency is not None:
             namespaceprefix_ = self.Currency_nsprefix_ + ':' if (UseCapturedNS_ and self.Currency_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
@@ -6626,14 +6626,14 @@ class Units(GeneratedsSuper):
         match format:
             case 'explicit':
                 for unit in self.Unit:
-                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
-                    power = 1.0 if unit.power is None else unit.power
+                    u = unit.Name if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else float(unit.power)
                     s += u + "^" + str(power) + "·"
                 return s[0:len(s)-3]
             case 'short':
                 for unit in self.Unit:
-                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
-                    power = 1.0 if unit.power is None else unit.power
+                    u = unit.Name if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else float(unit.power)
                     if power == 1.0:
                         s += u + "·"
                     elif power.is_integer():
@@ -6645,8 +6645,8 @@ class Units(GeneratedsSuper):
                 numerator = ""
                 denominator = ""
                 for unit in self.Unit:
-                    u = unit.Name.valueOf_ if unit.Name is not None else unit.Currency._value_
-                    power = 1.0 if unit.power is None else unit.power
+                    u = unit.Name if unit.Name is not None else unit.Currency._value_
+                    power = 1.0 if unit.power is None else float(unit.power)
                     if power > 0:
                         if power == 1.0:
                             numerator += u + "·"
@@ -6661,7 +6661,10 @@ class Units(GeneratedsSuper):
                             denominator += u + '^' + str(abs(int(power))) + "·"
                         else:
                             denominator += u + '^' + str(abs(power)) + "·"
-                return numerator[0:len(numerator)-1] + " / " + denominator[0:len(denominator)-1]
+                if len(denominator) == 0:
+                    return numerator[0:-1]
+                else:
+                    return numerator[0:-1] + " / " + denominator[0:-1]
     def _exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='Units'):
         if self.system is not None and 'system' not in already_processed:
             already_processed.add('system')
