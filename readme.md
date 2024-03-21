@@ -13,10 +13,10 @@ Materials information management utilities in Python using the MatML schema from
 [Documentation](https://github.com/nogula/elematic/wiki) is available, but still in work.
 ## Installation
 
-Install elematic with pip.
+Install elematic with pip from pypi.
 
 ```bash
-pip install elematic@git+https://github.com/nogula/elematic@main
+pip install --upgrade elematic
 ```
 ## Usage
 
