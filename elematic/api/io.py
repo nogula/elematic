@@ -3,6 +3,7 @@ import re
 import openpyxl
 from . import MatML_api
 
+
 def import_xml(input_file):
     """Reads MatML information from an XML file. Currently does not
     validate the file.
@@ -20,6 +21,7 @@ def import_xml(input_file):
     rootObject.build(rootNode)
     doc = None
     return rootObject
+
 
 def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
     """Converts a XLSX workbook from MAPTIS GRANTA MMPDS to a MatML_Doc.
@@ -48,7 +50,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
     lookup_sheet = workbook["Export Lookup"]
     # Iterate through each line item in export lookup sheet. Excel sheets index
     # from 1, so we start at row 2 since first row has headers
-    for row in lookup_sheet.iter_rows(min_row=2,max_row=100):
+    for row in lookup_sheet.iter_rows(min_row=2, max_row=100):
         # Get information about the target data
         target_worksheet_name = row[4].value
         target_range = row[6].value
@@ -67,36 +69,47 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
             target_range += "_01"
 
         # Check if the target worksheet actually exists. If not, skip the row.
-        try: target_worksheet = workbook[target_worksheet_name]
-        except KeyError: continue
+        try:
+            target_worksheet = workbook[target_worksheet_name]
+        except KeyError:
+            continue
 
         # Read target data from XLSX
         cell_values = _get_cell_value(
-            target_range_name=target_range,
-            target_worksheet=target_worksheet)
+            target_range_name=target_range, target_worksheet=target_worksheet
+        )
 
         # For now, we skip footnotes and source figures. TODO: create
         # MatML_api.Note and MatML_api.DataSourceDetails elements for these.
-        if "FOOTNOTE" in target_range: continue
-        if "SOURCEFIGURE" in target_range: continue
-        
+        if "FOOTNOTE" in target_range:
+            continue
+        if "SOURCEFIGURE" in target_range:
+            continue
+
         # Check to make sure we actually found data at the target destination.
-        if cell_values is None: continue
-        if len(cell_values) == 0: continue
+        if cell_values is None:
+            continue
+        if len(cell_values) == 0:
+            continue
 
         # Otherwise, convert the XLSX data to MatML data.
         match target_range:
-            case "MI_RECORDNAME": continue
+            case "MI_RECORDNAME":
+                continue
             case "MI_SPECIFICATION":
                 bulk_details.add_Specification(
                     MatML_api.Specification(valueOf_=cell_values[0])
                 )
-            case "MI_SHORTNAME": continue
-            case "MI_RECORDGUID": continue
+            case "MI_SHORTNAME":
+                continue
+            case "MI_RECORDGUID":
+                continue
             case "MI_COMMONNAME":
                 bulk_details.Name = MatML_api.Name(valueOf_=cell_values[0])
             case "MI_CONDITION":
-                bulk_details.add_ProcessingDetails(Name=MatML_api.Name(valueOf_=cell_values[0]))
+                bulk_details.add_ProcessingDetails(
+                    Name=MatML_api.Name(valueOf_=cell_values[0])
+                )
             case "MI_THICKNESS":
                 # Initialize Form, Geometry, Size, and Dimensions if they have
                 # not been set, yet.
@@ -114,13 +127,17 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # next to each dimension value indicating if it is inclusive
                 # ("TRUE") or exclusive ("FALSE").
                 dimension_string = str(cell_values[0])
-                dimension_string += " ≤ thickness" if cell_values[1] == "TRUE" else " < thickness"
+                dimension_string += (
+                    " ≤ thickness" if cell_values[1] == "TRUE" else " < thickness"
+                )
                 if len(cell_values) == 4:
-                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += " ≤ " if cell_values[3] == "TRUE" else " < "
                     dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
-                dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
+                dimension_string += " " + _get_cell_value_from_destination(
+                    row[2].value, workbook=workbook
+                )
                 bulk_details.Form.Geometry.Dimensions += dimension_string
             case "MI_AREA":
                 # Initialize Form, Geometry, Size, and Dimensions if they have
@@ -141,11 +158,13 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 dimension_string = str(cell_values[0])
                 dimension_string += " ≤ area" if cell_values[1] == "TRUE" else " < area"
                 if len(cell_values) == 4:
-                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += " ≤ " if cell_values[3] == "TRUE" else " < "
                     dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
-                dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
+                dimension_string += " " + _get_cell_value_from_destination(
+                    row[2].value, workbook=workbook
+                )
                 bulk_details.Form.Geometry.Dimensions += dimension_string
             case "MI_WIDTH":
                 # Initialize Form, Geometry, Size, and Dimensions if they have
@@ -164,13 +183,17 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # next to each dimension value indicating if it is inclusive
                 # ("TRUE") or exclusive ("FALSE").
                 dimension_string = str(cell_values[0])
-                dimension_string += " ≤ width" if cell_values[1] == "TRUE" else " < width"
+                dimension_string += (
+                    " ≤ width" if cell_values[1] == "TRUE" else " < width"
+                )
                 if len(cell_values) == 4:
-                    dimension_string += " ≤ " if cell_values[3] =="TRUE" else " < "
+                    dimension_string += " ≤ " if cell_values[3] == "TRUE" else " < "
                     dimension_string += str(cell_values[2])
                 # Add unit string (which is found in the second column of the
                 # Export Lookup sheet)
-                dimension_string += " " + _get_cell_value_from_destination(row[2].value,workbook=workbook)
+                dimension_string += " " + _get_cell_value_from_destination(
+                    row[2].value, workbook=workbook
+                )
                 bulk_details.Form.Geometry.Dimensions += dimension_string
             case "MI_AVAILABLEFORMS":
                 if bulk_details.Form is None:
@@ -195,7 +218,8 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
             case _:
                 # Otherwise... treat the data as though it is PropertyData.
                 data_value, data_format = _convert_list_to_string(cell_values)
-                if data_value is None: continue
+                if data_value is None:
+                    continue
 
                 # Add the property data to the bulk details.
                 bulk_details.add_PropertyData(
@@ -208,28 +232,31 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 )
 
                 # Add a corresponding PropertyDetails entry to the metadata.
-                metadata.add_PropertyDetails(
-                    MatML_api.PropertyDetails(id=target_range)
-                )
+                metadata.add_PropertyDetails(MatML_api.PropertyDetails(id=target_range))
                 property_details = metadata.get_PropertyDetails(id=target_range)
                 property_name = row[0].value
                 property_details.Name = MatML_api.Name(valueOf_=property_name)
                 # Sometimes the units column is a destination, other times it is
                 # a unit string directly.
                 property_unit_string = row[2].value
-                    
+
                 if property_unit_string is None:
                     property_details.Unitless = MatML_api.Unitless()
                 else:
                     if "=" in property_unit_string:
-                        property_unit_string = _get_cell_value_from_destination(destination=property_unit_string,workbook=workbook)
-                    property_details.Units = _form_units(unit_string=property_unit_string)
+                        property_unit_string = _get_cell_value_from_destination(
+                            destination=property_unit_string, workbook=workbook
+                        )
+                    property_details.Units = _form_units(
+                        unit_string=property_unit_string
+                    )
 
                 # Now we check for parameter values.
-                for col in range(17,24):
+                for col in range(17, 24):
                     # Check each column for ranges.
                     parameter_range_name = row[col].value
-                    if parameter_range_name is None: break
+                    if parameter_range_name is None:
+                        break
                     if target_worksheet_name.endswith("_In"):
                         # The data are multi-series so we append "_01".
                         parameter_range_name += "_01"
@@ -237,36 +264,46 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                     # Get the parameter data.
                     parameter_cell_value = _get_cell_value(
                         target_range_name=parameter_range_name,
-                        target_worksheet=target_worksheet
+                        target_worksheet=target_worksheet,
                     )
                     # Process the data and obtain its format.
-                    parameter_data, parameter_format = _convert_list_to_string(parameter_cell_value)
-                    if parameter_data is None: break
+                    parameter_data, parameter_format = _convert_list_to_string(
+                        parameter_cell_value
+                    )
+                    if parameter_data is None:
+                        break
                     # Add the ParameterValue.
-                    property.add_ParameterValue(MatML_api.ParameterValue(
-                        parameter=parameter_range_name,
-                        Data=MatML_api.DataType(
-                            valueOf_=parameter_data,
-                            format=parameter_format
+                    property.add_ParameterValue(
+                        MatML_api.ParameterValue(
+                            parameter=parameter_range_name,
+                            Data=MatML_api.DataType(
+                                valueOf_=parameter_data, format=parameter_format
+                            ),
                         )
-                    ))
+                    )
 
                     # Add the ParameterDetails.
-                    parameter_name, parameter_units = _get_parameter_metadata_info(parameter=parameter_range_name,workbook=workbook)
+                    parameter_name, parameter_units = _get_parameter_metadata_info(
+                        parameter=parameter_range_name, workbook=workbook
+                    )
                     if parameter_units is None:
-                        metadata.add_ParameterDetails(MatML_api.ParameterDetails(
-                            id=parameter_range_name,
-                            Name = MatML_api.Name(valueOf_=parameter_name),
-                            Unitless=MatML_api.Unitless(),
-                        ))
+                        metadata.add_ParameterDetails(
+                            MatML_api.ParameterDetails(
+                                id=parameter_range_name,
+                                Name=MatML_api.Name(valueOf_=parameter_name),
+                                Unitless=MatML_api.Unitless(),
+                            )
+                        )
                     else:
-                        metadata.add_ParameterDetails(MatML_api.ParameterDetails(
-                            id=parameter_range_name,
-                            Name=MatML_api.Name(valueOf_=parameter_name),
-                            Units=_form_units(parameter_units)
-                        ))
+                        metadata.add_ParameterDetails(
+                            MatML_api.ParameterDetails(
+                                id=parameter_range_name,
+                                Name=MatML_api.Name(valueOf_=parameter_name),
+                                Units=_form_units(parameter_units),
+                            )
+                        )
     return library
-                    
+
 
 def _get_cell_value(target_range_name: str, target_worksheet) -> list:
     """Given a range name and worksheet, returns the value(s) of the cell(s)
@@ -277,7 +314,7 @@ def _get_cell_value(target_range_name: str, target_worksheet) -> list:
         target_worksheet (_type_): _description_
 
     Returns:
-        list: values 
+        list: values
     """
     cells = []
 
@@ -299,7 +336,7 @@ def _get_cell_value(target_range_name: str, target_worksheet) -> list:
     # If cell objects were found, then we collect the values at those cells.
     if cells:
         # If cells is a tuple, that means the range covers multiple cells.
-        if isinstance(cells,tuple):
+        if isinstance(cells, tuple):
             values = []
             # Iterate through each row and column covered by the range.
             for row in cells:
@@ -307,29 +344,34 @@ def _get_cell_value(target_range_name: str, target_worksheet) -> list:
                 for cell in row:
                     # If the cell is empty, then there won't be anymore data
                     # after this column in this row, so we break.
-                    if cell.value is None: break
+                    if cell.value is None:
+                        break
                     # Otherwise, append the cell value.
                     row_values.append(cell.value)
                 if row_values:
                     # If the row is empty, there won't be anymore data after
                     # this row, so we break.
                     values.append(row_values)
-                else: break
+                else:
+                    break
             values = [item for sublist in values for item in sublist]
             return values
         # If cells is not a tuple, that means the range corresponds with a
         # single cell.
-        else: return [cells.value]
+        else:
+            return [cells.value]
     # If no cells were found, then we return an empty list.
     return []
 
-def _get_cell_value_from_destination(destination,
-        worksheet:openpyxl.worksheet.worksheet.Worksheet=None,
-        workbook:openpyxl.Workbook=None
-    ) -> openpyxl.worksheet.cell_range.CellRange:
-    """Given a destination and either worksheet or workbook, gets the value of 
+
+def _get_cell_value_from_destination(
+    destination,
+    worksheet: openpyxl.worksheet.worksheet.Worksheet = None,
+    workbook: openpyxl.Workbook = None,
+) -> openpyxl.worksheet.cell_range.CellRange:
+    """Given a destination and either worksheet or workbook, gets the value of
     the cell corresponding to that destination.
-    
+
     Note: currently only matches absolute destinations (i.e., destination must
     include a sheetname! in it.)
 
@@ -348,27 +390,30 @@ def _get_cell_value_from_destination(destination,
     """
     if "!" not in destination:
         if worksheet == None:
-            raise ValueError("worksheet must be provided when destination does not include sheet name (has no '!' in it)")
+            raise ValueError(
+                "worksheet must be provided when destination does not include sheet name (has no '!' in it)"
+            )
     # Regex to match groups of <sheet_name>!$<column>$<row>
-    match = re.match(r"=(\w+)!\$(\w+)\$(\d+)",destination)
+    match = re.match(r"=(\w+)!\$(\w+)\$(\d+)", destination)
     if match:
         sheet_name, column, row = match.groups()
         if workbook is not None:
-            return workbook[sheet_name][column+row].value
+            return workbook[sheet_name][column + row].value
         elif worksheet is not None:
-            return workbook[column+row].value
+            return workbook[column + row].value
         else:
             raise ValueError("either worksheet or workbook must be provided.")
     else:
         # Regex to match groups of $<column>$<row>
-        match = re.match(r"=\$(\w+)\$(\d+)",destination)
+        match = re.match(r"=\$(\w+)\$(\d+)", destination)
         if match:
             column, row = match.groups()
             if worksheet is None:
                 raise ValueError("Worksheet must be provided.")
-            return worksheet[column+row].value
-        
-def _convert_list_to_string(data:list) -> list[str,str]:
+            return worksheet[column + row].value
+
+
+def _convert_list_to_string(data: list) -> list[str, str]:
     """Takes a list of data and returns a comma-separated string representation
     according to the MatML 3.1 XSD data formats.
 
@@ -387,15 +432,16 @@ def _convert_list_to_string(data:list) -> list[str,str]:
     # If the provided list is None, or if it has entries but the first
     # entry is None, then we exit the function
     if not data or data[0] is None:
-        return None,None
+        return None, None
     # If the first entry is a str, then we assume they all are strings
-    if isinstance(data[0],str):
-        return [",".join(data),"string"]
+    if isinstance(data[0], str):
+        return [",".join(data), "string"]
     # Otherwise treat float and int types the same
-    elif isinstance(data[0],float|int):
-        return [",".join(map(str,data)),"float"]
-    
-def _form_units(unit_string:str) -> MatML_api.Units:
+    elif isinstance(data[0], float | int):
+        return [",".join(map(str, data)), "float"]
+
+
+def _form_units(unit_string: str) -> MatML_api.Units:
     units = MatML_api.Units()
     numerators = unit_string.split("/")[0]
     denominators = unit_string.split("/")[1:]
@@ -404,54 +450,58 @@ def _form_units(unit_string:str) -> MatML_api.Units:
     # sides by digits. So something like "ksi.in^0.5" would be split into "ksi"
     # and "in^0.5", but not "ksi", "in^0" and "5". The loop iterates through
     # each of these groups.
-    for unit_and_power in re.split(r"(?<![0-9])\.(?![0-9])",numerators):
-        
+    for unit_and_power in re.split(r"(?<![0-9])\.(?![0-9])", numerators):
+
         # Now we try to split each group by the "^". This regex splits on "^" if
         # there is a letter to the left and a number to the right. So a string
         # like "in^0.5" would split into "in" and "0.5". But a string like
         # "10^6 psi" would not split at all. Sometimes no power is specified,
         # in which case the re.split returns a list of length 1 and we set the
         # power by default to "1" since this is a unit in the numerator.
-        split_name_and_power = re.split(r"(?<![0-9])\^(?![^0-9])",unit_and_power)
+        split_name_and_power = re.split(r"(?<![0-9])\^(?![^0-9])", unit_and_power)
         if len(split_name_and_power) == 1:
             unit_power = "1"
         else:
             unit_power = split_name_and_power[1]
         unit_name = split_name_and_power[0]
-        units.add_Unit(MatML_api.Unit(
-            power=unit_power,
-            description=unit_name+"^"+unit_power,
-            Name=str(unit_name)
+        units.add_Unit(
+            MatML_api.Unit(
+                power=unit_power,
+                description=unit_name + "^" + unit_power,
+                Name=str(unit_name),
             )
         )
-    
+
     # Now we repeat the same procedure, except for each denominator unit.
     # Unfortunately, the formatting isn't entirely consistent here. For the
     # coefficient of thermal expansion units, the string would be like
     # "in/in/°F". But for thermal conductivity, the unit string is
     # "BTU/hr.ft.°F".
     for denominator in denominators:
-        for unit_and_power in re.split(r"(?<![0-9])\.(?![0-9])",denominator):
-            split_name_and_power = re.split(r"(?<![0-9])\^(?![^0-9])",unit_and_power)
+        for unit_and_power in re.split(r"(?<![0-9])\.(?![0-9])", denominator):
+            split_name_and_power = re.split(r"(?<![0-9])\^(?![^0-9])", unit_and_power)
             if len(split_name_and_power) == 1:
                 unit_power = "1"
             else:
                 unit_power = split_name_and_power[1]
             unit_power = "-" + unit_power
             unit_name = split_name_and_power[0]
-            units.add_Unit(MatML_api.Unit(
-                power=unit_power,
-                description=unit_name+"^"+unit_power,
-                Name=str(unit_name)
+            units.add_Unit(
+                MatML_api.Unit(
+                    power=unit_power,
+                    description=unit_name + "^" + unit_power,
+                    Name=str(unit_name),
                 )
             )
 
     return units
 
+
 def _get_parameter_metadata_info(
-        parameter:str,
-        workbook:openpyxl.Workbook,
-        parameter_lookup_sheetname:str="Parameter Lookup") -> list[str,str]:
+    parameter: str,
+    workbook: openpyxl.Workbook,
+    parameter_lookup_sheetname: str = "Parameter Lookup",
+) -> list[str, str]:
     """Obtains the name and the unit string of the parameter value.
 
     Args:
@@ -469,4 +519,3 @@ def _get_parameter_metadata_info(
         if row[1].value == parameter:
             return [row[0].value, row[2].value]
     return [None, None]
-            
