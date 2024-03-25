@@ -20,7 +20,9 @@
 # Current working directory (os.getcwd()):
 #   api_generator
 #
+from __future__ import annotations
 
+from msilib.schema import Property
 import sys
 try:
     ModulenotfoundExp_ = ModuleNotFoundError
@@ -1328,7 +1330,7 @@ class MatML_Doc(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Material=None, Metadata=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Material:Material=None, Metadata:Metadata=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1457,7 +1459,7 @@ class AssociationDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Associate=None, Relationship=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Associate:str=None, Relationship:str=None, Notes=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1639,7 +1641,7 @@ class BulkDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, Class=None, Subclass=None, Specification=None, Source=None, Form=None, ProcessingDetails=None, Characterization=None, PropertyData=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, Class:Class=None, Subclass:Class=None, Specification:Specification=None, Source:Source=None, Form:Form=None, ProcessingDetails:ProcessingDetails=None, Characterization:Characterization=None, PropertyData:PropertyData=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1949,7 +1951,7 @@ class Characterization(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Formula=None, ChemicalComposition=None, PhaseComposition=None, DimensionalDetails=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Formula:str=None, ChemicalComposition:ChemicalComposition=None, PhaseComposition:Name=None, DimensionalDetails:DimensionalDetails=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2158,7 +2160,7 @@ class ChemicalComposition(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Compound=None, Element=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Compound:Compound=None, Element:Element=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2286,12 +2288,12 @@ class Class(GeneratedsSuper):
     The `Class` can either have a `Name` or `ParentMaterial` element:
     
     - `Name` contains a string representing the name of the material's class and may occur only once within the `Class` element.
-    - `ParentMaterial` is an reference by `id` to another `Material` in the `MatML_Doc` and can occur only once in the `Class` element.
+    - `ParentMaterial` is a reference by `id` to another `Material` in the `MatML_Doc` and can occur only once in the `Class` element.
     """
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, ParentMaterial=None, ParentSubClass=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, ParentMaterial:ParentMaterialType=None, ParentSubClass:Class=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2449,7 +2451,7 @@ class ComponentDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, Name=None, Class=None, Subclass=None, Specification=None, Source=None, Form=None, ProcessingDetails=None, Characterization=None, PropertyData=None, AssociationDetails=None, ComponentDetails_member=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, Name:Name=None, Class:Class=None, Subclass:Class=None, Specification:Specification=None, Source:Source=None, Form:Form=None, ProcessingDetails:ProcessingDetails=None, Characterization:Characterization=None, PropertyData:PropertyData=None, AssociationDetails:AssociationDetails=None, ComponentDetails_member:ComponentDetails=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2793,7 +2795,7 @@ class Compound(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Element=None, Concentration=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Element:Element=None, Concentration:Concentration=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2949,7 +2951,7 @@ class Concentration(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Value=None, Units=None, Qualifier=None, Uncertainty=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Value:Value=None, Units:Units=None, Qualifier:str=None, Uncertainty:Uncertainty=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3162,7 +3164,7 @@ class DimensionalDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, Value=None, Units=None, Qualifier=None, Uncertainty=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, Value:Value=None, Units:Units=None, Qualifier:str=None, Uncertainty:Uncertainty=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3385,7 +3387,7 @@ class Element(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Symbol=None, Concentration=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Symbol:SymbolType=None, Concentration:Concentration=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3528,7 +3530,7 @@ class Form(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Description=None, Geometry=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Description:Name=None, Geometry:Geometry=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3674,7 +3676,7 @@ class Geometry(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Shape=None, Dimensions=None, Orientation=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Shape:str=None, Dimensions:str=None, Orientation:str=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3837,7 +3839,7 @@ class Glossary(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Term=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Term:GlossaryTerm=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3946,7 +3948,7 @@ class GlossaryTerm(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, Definition=None, Abbreviation=None, Synonym=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, Definition:str=None, Abbreviation:str=None, Synonym:str=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -4147,7 +4149,7 @@ class Graphs(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Graph=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Graph:GraphType=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -4261,7 +4263,7 @@ class Material(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, layers=None, local_frame_of_reference=None, BulkDetails=None, ComponentDetails=None, Graphs=None, Glossary=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, layers:int=None, local_frame_of_reference:str=None, BulkDetails:BulkDetails=None, ComponentDetails:BulkDetails=None, Graphs:Graphs=None, Glossary:Glossary=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -4466,7 +4468,7 @@ class Metadata(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, AuthorityDetails=None, DataSourceDetails=None, MeasurementTechniqueDetails=None, ParameterDetails=None, PropertyDetails=None, SourceDetails=None, SpecimenDetails=None, TestConditionDetails=None, gds_collector_=None, **kwargs_):
+    def __init__(self, AuthorityDetails:AuthorityDetails=None, DataSourceDetails:DataSourceDetails=None, MeasurementTechniqueDetails:MeasurementTechniqueDetails=None, ParameterDetails:ParameterDetails=None, PropertyDetails:PropertyDetails=None, SourceDetails:SourceDetails=None, SpecimenDetails:SpecimenDetails=None, TestConditionDetails:TestConditionDetails=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -4784,7 +4786,7 @@ class Name(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, authority=None, valueOf_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, authority:str=None, valueOf_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -4884,7 +4886,7 @@ class ParameterValue(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, parameter=None, format=None, Data=None, Uncertainty=None, Qualifier=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, parameter:str=None, format:DataFormat=None, Data:DataType=None, Uncertainty:Uncertainty=None, Qualifier:str=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -5118,7 +5120,7 @@ class PhaseComposition(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, Concentration=None, PropertyData=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, Concentration:Concentration=None, PropertyData:PropertyData=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -5295,7 +5297,7 @@ class ProcessingDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, Name=None, ParameterValue=None, Result=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, Name:Name=None, ParameterValue:ParameterValue=None, Result:str=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -5487,7 +5489,7 @@ class PropertyData(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, property=None, technique=None, source=None, specimen=None, test=None, delimiter=',', quote=None, Data=None, Uncertainty=None, Qualifier=None, ParameterValue=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, property:str=None, technique:str=None, source:str=None, specimen:str=None, test:str=None, delimiter:str=',', quote:str=None, Data:DataType=None, Uncertainty:Uncertainty=None, Qualifier:str=None, ParameterValue:ParameterValue=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -5815,7 +5817,7 @@ class Source(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, source=None, gds_collector_=None, **kwargs_):
+    def __init__(self, source:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -5903,7 +5905,7 @@ class Specification(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, authority=None, valueOf_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, authority:str=None, valueOf_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6004,7 +6006,7 @@ class Uncertainty(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DistributionType='Normal/Gaussian', Num_Std_Dev=2, Percentile=None, ConfidenceLevel=None, Value=None, Units=None, Unitless=None, Notes=None, Scale='Linear', gds_collector_=None, **kwargs_):
+    def __init__(self, DistributionType:str='Normal/Gaussian', Num_Std_Dev:float=2, Percentile:float=None, ConfidenceLevel:float=None, Value:str=None, Units:Units=None, Unitless:Unitless=None, Notes:str=None, Scale='Linear', gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6264,7 +6266,7 @@ class Unit(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, power=None, description=None, Name=None, Currency=None, gds_collector_=None, **kwargs_):
+    def __init__(self, power:float=None, description:str=None, Name:str=None, Currency:CurrencyCode=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6514,7 +6516,7 @@ class Units(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, system=None, factor=None, name=None, description=None, Unit=None, gds_collector_=None, **kwargs_):
+    def __init__(self, system:str=None, factor:float=None, name:str=None, description:str=None, Unit=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6728,7 +6730,7 @@ class Value(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, format=None, valueOf_=None, gds_collector_=None, **kwargs_):
+    def __init__(self, format:DataFormat=None, valueOf_=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6839,7 +6841,7 @@ class AuthorityDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, Name=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, Name:Name=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -6985,7 +6987,7 @@ class DataSourceDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, type_=None, Name=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, type_:str=None, Name:Name=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7143,7 +7145,7 @@ class MeasurementTechniqueDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, Name=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, Name:Name=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7288,7 +7290,7 @@ class ParameterDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, Name=None, Units=None, Unitless=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, Name:Name=None, Units:Units=None, Unitless:Unitless=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7467,7 +7469,7 @@ class PropertyDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, type_=None, Name=None, Units=None, Unitless=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, type_:str=None, Name:Name=None, Units:Units=None, Unitless:Unitless=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7654,7 +7656,7 @@ class SourceDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, type_=None, Name=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, type_:str=None, Name:Name=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7815,7 +7817,7 @@ class SpecimenDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, type_=None, Name=None, Notes=None, Geometry=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, type_:str=None, Name:Name=None, Notes:str=None, Geometry:Geometry=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -7989,7 +7991,7 @@ class TestConditionDetails(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, ParameterValue=None, Notes=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, ParameterValue:ParameterValue=None, Notes:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -8139,7 +8141,7 @@ class ParentMaterialType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, id=None, gds_collector_=None, **kwargs_):
+    def __init__(self, id:str=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
