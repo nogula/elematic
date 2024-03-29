@@ -15,9 +15,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Touch .nojekyll
-        run: touch ./docs/_build/html/.nojekyll
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -32,6 +29,9 @@ jobs:
         run: |
           cd docs/source
           sphinx-build -b html . _build/html
+
+      - name: Touch .nojekyll
+        run: touch ./docs/_build/html/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
