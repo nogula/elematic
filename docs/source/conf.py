@@ -9,7 +9,7 @@
 project = 'elematic'
 copyright = '2024, Noah Gula'
 author = 'Noah Gula'
-release = '1.0.2'
+release = '1.0.4'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
