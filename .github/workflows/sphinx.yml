@@ -15,6 +15,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Touch .nojekyll
+        run: touch ./docs/_build/html/.nojekyll
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
