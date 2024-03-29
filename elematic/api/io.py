@@ -48,6 +48,20 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
     # MAPTIS template uses the "Export Lookup" sheet to list all data and their
     # locations.
     lookup_sheet = workbook["Export Lookup"]
+
+    database_name = workbook["Template Information"]["B1"].value
+    print(database_name)
+    data_source = MatML_api.DataSourceDetails(
+        id="ds1", Name=MatML_api.Name(valueOf_=database_name)
+    )
+    metadata.add_DataSourceDetails(data_source)
+
+    for sheetname in workbook.sheetnames:
+        if "~" in sheetname:
+            suffix = sheetname.split("~", 1)[1]
+            print(suffix)
+            break
+
     # Iterate through each line item in export lookup sheet. Excel sheets index
     # from 1, so we start at row 2 since first row has headers
     for row in lookup_sheet.iter_rows(min_row=2, max_row=100):
@@ -61,7 +75,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
         if target_worksheet_name.endswith("~"):
             # The GRANTA MMPDS export template on MAPTIS appends a "1_In" to
             # dependent data sheets
-            target_worksheet_name += "1_In"
+            target_worksheet_name += suffix
             # Data which are dependent on multiple parameters (e.g., tensile
             # data depends on temperature AND time), there are usually multiple
             # series (e.g., _01, _02, _03, etc. up to _20 or so). For now only
@@ -82,8 +96,6 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
         # For now, we skip footnotes and source figures. TODO: create
         # MatML_api.Note and MatML_api.DataSourceDetails elements for these.
         if "FOOTNOTE" in target_range:
-            continue
-        if "SOURCEFIGURE" in target_range:
             continue
 
         # Check to make sure we actually found data at the target destination.
@@ -112,6 +124,8 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                         Name=MatML_api.Name(valueOf_=cell_values[0])
                     )
                 )
+            case "MI_SOURCEFIGURE":
+                data_source.Name.valueOf_ += " " + cell_values[0]
             case "MI_THICKNESS":
                 # Initialize Form, Geometry, Size, and Dimensions if they have
                 # not been set, yet.
@@ -209,14 +223,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                     bulk_details.Notes = "Statistical Basis: " + cell_values[0]
                 else:
                     bulk_details.Notes += "\nStatistical Basis: " + cell_values[0]
-            case "MI_SOURCEFIGURE":
-                # Similar to note above... probably better to include this
-                # information as a "data source" rather than just in the Notes
-                # but this works well enough for now. TODO
-                if bulk_details.Notes is None:
-                    bulk_details.Notes = "Source Figure: " + cell_values[0]
-                else:
-                    bulk_details.Notes += "\nSource Figure: " + cell_values[0]
+
             case _:
                 # Otherwise... treat the data as though it is PropertyData.
                 data_value, data_format = _convert_list_to_string(cell_values)
@@ -225,7 +232,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
 
                 # Add the property data to the bulk details.
                 bulk_details.add_PropertyData(
-                    MatML_api.PropertyData(property=target_range)
+                    MatML_api.PropertyData(property=target_range, source="ds1")
                 )
                 property = bulk_details.get_PropertyData(property=target_range)[0]
                 property.Data = MatML_api.DataType(
@@ -252,7 +259,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                     property_details.Units = _form_units(
                         unit_string=property_unit_string
                     )
-
+                    property_details.Units.name = property_unit_string
                 # Now we check for parameter values.
                 for col in range(17, 24):
                     # Check each column for ranges.
