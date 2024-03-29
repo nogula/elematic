@@ -107,8 +107,10 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
             case "MI_COMMONNAME":
                 bulk_details.Name = MatML_api.Name(valueOf_=cell_values[0])
             case "MI_CONDITION":
-                bulk_details.add_ProcessingDetails(MatML_api.ProcessingDetails(
-                    Name=MatML_api.Name(valueOf_=cell_values[0]))
+                bulk_details.add_ProcessingDetails(
+                    MatML_api.ProcessingDetails(
+                        Name=MatML_api.Name(valueOf_=cell_values[0])
+                    )
                 )
             case "MI_THICKNESS":
                 # Initialize Form, Geometry, Size, and Dimensions if they have
