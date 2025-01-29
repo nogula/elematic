@@ -1,10 +1,10 @@
-from . import MatML_api
 import sys
 import io
+from elematic import api
 
 
 def report(
-    material: MatML_api.Material, type: str = "full", out: io.TextIOWrapper = sys.stdout
+    material: api.Material, type: str = "full", out: io.TextIOWrapper = sys.stdout
 ):
     """Creates a human-readable report of the materials information.
 

@@ -1,7 +1,7 @@
 # import sys
 import re
 import openpyxl
-from . import MatML_api
+from . import api
 
 
 def import_xml(input_file):
@@ -15,15 +15,15 @@ def import_xml(input_file):
         elematic.api.MatML_api.MatML_doc: the root element of the MatML
         data
     """
-    doc = MatML_api.parsexml_(input_file)
+    doc = api.parsexml_(input_file)
     rootNode = doc.getroot()
-    rootObject = MatML_api.MatML_Doc.factory()
+    rootObject = api.MatML_Doc.factory()
     rootObject.build(rootNode)
     doc = None
     return rootObject
 
 
-def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
+def import_granta_maptis_mmpds(input_file: str) -> api.MatML_Doc:
     """Converts a XLSX workbook from MAPTIS GRANTA MMPDS to a MatML_Doc.
 
     Args:
@@ -35,12 +35,12 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
 
     # Initial MatML_Doc with metadata and a material card with empty bulk
     # details
-    library = MatML_api.MatML_Doc()
-    library.Metadata = MatML_api.Metadata()
+    library = api.MatML_Doc()
+    library.Metadata = api.Metadata()
     metadata = library.Metadata
-    library.add_Material(MatML_api.Material())
+    library.add_Material(api.Material())
     material = library.Material[0]
-    material.BulkDetails = MatML_api.BulkDetails()
+    material.BulkDetails = api.BulkDetails()
     bulk_details = material.BulkDetails
 
     # Load workbook from provided filepath
@@ -51,9 +51,7 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
 
     database_name = workbook["Template Information"]["B1"].value
     print(database_name)
-    data_source = MatML_api.DataSourceDetails(
-        id="ds1", Name=MatML_api.Name(valueOf_=database_name)
-    )
+    data_source = api.DataSourceDetails(id="ds1", Name=api.Name(valueOf_=database_name))
     metadata.add_DataSourceDetails(data_source)
 
     for sheetname in workbook.sheetnames:
@@ -110,19 +108,17 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 continue
             case "MI_SPECIFICATION":
                 bulk_details.add_Specification(
-                    MatML_api.Specification(valueOf_=cell_values[0])
+                    api.Specification(valueOf_=cell_values[0])
                 )
             case "MI_SHORTNAME":
                 continue
             case "MI_RECORDGUID":
                 continue
             case "MI_COMMONNAME":
-                bulk_details.Name = MatML_api.Name(valueOf_=cell_values[0])
+                bulk_details.Name = api.Name(valueOf_=cell_values[0])
             case "MI_CONDITION":
                 bulk_details.add_ProcessingDetails(
-                    MatML_api.ProcessingDetails(
-                        Name=MatML_api.Name(valueOf_=cell_values[0])
-                    )
+                    api.ProcessingDetails(Name=api.Name(valueOf_=cell_values[0]))
                 )
             case "MI_SOURCEFIGURE":
                 data_source.Name.valueOf_ += " " + cell_values[0]
@@ -130,9 +126,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # Initialize Form, Geometry, Size, and Dimensions if they have
                 # not been set, yet.
                 if bulk_details.Form is None:
-                    bulk_details.Form = MatML_api.Form()
+                    bulk_details.Form = api.Form()
                 if bulk_details.Form.Geometry is None:
-                    bulk_details.Form.Geometry = MatML_api.Geometry()
+                    bulk_details.Form.Geometry = api.Geometry()
                     bulk_details.Form.Geometry.Shape = ""
                 # If Dimensions already exist, then we add another entry to it.
                 if bulk_details.Form.Geometry.Dimensions is None:
@@ -159,9 +155,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # Initialize Form, Geometry, Size, and Dimensions if they have
                 # not been set, yet.
                 if bulk_details.Form is None:
-                    bulk_details.Form = MatML_api.Form()
+                    bulk_details.Form = api.Form()
                 if bulk_details.Form.Geometry is None:
-                    bulk_details.Form.Geometry = MatML_api.Geometry()
+                    bulk_details.Form.Geometry = api.Geometry()
                     bulk_details.Form.Geometry.Shape = ""
                 # If Dimensions already exist, then we add another entry to it.
                 if bulk_details.Form.Geometry.Dimensions is None:
@@ -186,9 +182,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 # Initialize Form, Geometry, Size, and Dimensions if they have
                 # not been set, yet.
                 if bulk_details.Form is None:
-                    bulk_details.Form = MatML_api.Form()
+                    bulk_details.Form = api.Form()
                 if bulk_details.Form.Geometry is None:
-                    bulk_details.Form.Geometry = MatML_api.Geometry()
+                    bulk_details.Form.Geometry = api.Geometry()
                     bulk_details.Form.Geometry.Shape = ""
                 # If Dimensions already exist, then we add another entry to it.
                 if bulk_details.Form.Geometry.Dimensions is None:
@@ -213,8 +209,8 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                 bulk_details.Form.Geometry.Dimensions += dimension_string
             case "MI_AVAILABLEFORMS":
                 if bulk_details.Form is None:
-                    bulk_details.Form = MatML_api.Form()
-                bulk_details.Form.Description = MatML_api.Name(value_of=cell_values[0])
+                    bulk_details.Form = api.Form()
+                bulk_details.Form.Description = api.Name(value_of=cell_values[0])
             case "MI_STATISTICALBASIS":
                 # It would probably be wiser to put the statistical basis as a
                 # Qualifier for relevant property data in accordance with
@@ -232,25 +228,25 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
 
                 # Add the property data to the bulk details.
                 bulk_details.add_PropertyData(
-                    MatML_api.PropertyData(property=target_range, source="ds1")
+                    api.PropertyData(property=target_range, source="ds1")
                 )
                 property = bulk_details.get_PropertyData(property=target_range)[0]
-                property.Data = MatML_api.DataType(
+                property.Data = api.DataType(
                     valueOf_=data_value,
                     format=data_format,
                 )
 
                 # Add a corresponding PropertyDetails entry to the metadata.
-                metadata.add_PropertyDetails(MatML_api.PropertyDetails(id=target_range))
+                metadata.add_PropertyDetails(api.PropertyDetails(id=target_range))
                 property_details = metadata.get_PropertyDetails(id=target_range)
                 property_name = row[0].value
-                property_details.Name = MatML_api.Name(valueOf_=property_name)
+                property_details.Name = api.Name(valueOf_=property_name)
                 # Sometimes the units column is a destination, other times it is
                 # a unit string directly.
                 property_unit_string = row[2].value
 
                 if property_unit_string is None:
-                    property_details.Unitless = MatML_api.Unitless()
+                    property_details.Unitless = api.Unitless()
                 else:
                     if "=" in property_unit_string:
                         property_unit_string = _get_cell_value_from_destination(
@@ -283,9 +279,9 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                         break
                     # Add the ParameterValue.
                     property.add_ParameterValue(
-                        MatML_api.ParameterValue(
+                        api.ParameterValue(
                             parameter=parameter_range_name,
-                            Data=MatML_api.DataType(
+                            Data=api.DataType(
                                 valueOf_=parameter_data, format=parameter_format
                             ),
                         )
@@ -297,17 +293,17 @@ def import_granta_maptis_mmpds(input_file: str) -> MatML_api.MatML_Doc:
                     )
                     if parameter_units is None:
                         metadata.add_ParameterDetails(
-                            MatML_api.ParameterDetails(
+                            api.ParameterDetails(
                                 id=parameter_range_name,
-                                Name=MatML_api.Name(valueOf_=parameter_name),
-                                Unitless=MatML_api.Unitless(),
+                                Name=api.Name(valueOf_=parameter_name),
+                                Unitless=api.Unitless(),
                             )
                         )
                     else:
                         metadata.add_ParameterDetails(
-                            MatML_api.ParameterDetails(
+                            api.ParameterDetails(
                                 id=parameter_range_name,
-                                Name=MatML_api.Name(valueOf_=parameter_name),
+                                Name=api.Name(valueOf_=parameter_name),
                                 Units=_form_units(parameter_units),
                             )
                         )
@@ -450,8 +446,8 @@ def _convert_list_to_string(data: list) -> list[str, str]:
         return [",".join(map(str, data)), "float"]
 
 
-def _form_units(unit_string: str) -> MatML_api.Units:
-    units = MatML_api.Units()
+def _form_units(unit_string: str) -> api.Units:
+    units = api.Units()
     numerators = unit_string.split("/")[0]
     denominators = unit_string.split("/")[1:]
 
@@ -474,7 +470,7 @@ def _form_units(unit_string: str) -> MatML_api.Units:
             unit_power = split_name_and_power[1]
         unit_name = split_name_and_power[0]
         units.add_Unit(
-            MatML_api.Unit(
+            api.Unit(
                 power=unit_power,
                 description=unit_name + "^" + unit_power,
                 Name=str(unit_name),
@@ -496,7 +492,7 @@ def _form_units(unit_string: str) -> MatML_api.Units:
             unit_power = "-" + unit_power
             unit_name = split_name_and_power[0]
             units.add_Unit(
-                MatML_api.Unit(
+                api.Unit(
                     power=unit_power,
                     description=unit_name + "^" + unit_power,
                     Name=str(unit_name),
