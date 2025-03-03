@@ -57,7 +57,6 @@ plugins:
             show_root_heading: True
             show_source: False
             show_bases: False
-  - mike
 
 
 nav:
