@@ -1,27 +1,20 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "elematic"
-version = "1.0.4"
-description = "Material information management via MatML for Python"
-readme = "readme.md"
-license = {file = "LICENSE"}
+version = "2.0.0"
+description = "Materials information management via MatML for Python"
 authors = [
     {name = "Noah Gula"}
 ]
-keywords = ["materials", "information", "management", "MatML"]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+license = {file = "LICENSE"}
+
+
 dependencies = [
-    "lxml",
-    "six",
-    "openpyxl",
+    "lxml (>=5.3.0,<6.0.0)",
+    "xsdata[cli] (>=24.12,<25.0)",
+    "xsdata-pydantic[cli,lxml,soap] (>=24.5,<25.0)",
+    "pyside6-essentials (>=6.8.2.1,<7.0.0.0)",
 ]
 
 [project.urls]
@@ -30,8 +23,19 @@ dependencies = [
 "Documentation" = "https://github.com/nogula/elematic/wiki"
 "Issues" = "https://github.com/nogula/elematic/issues"
 
-[project.optional-dependencies]
-# Currently, you have none, but you can add them here later.
 
-[tool.hatch.metadata]
-# Additional Hatch-specific configurations if needed
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+pylint = "^3.3.4"
+mkdocs = "^1.6.1"
+mkdocstrings-python = "^1.14.5"
+mkdocs-material = "^9.6.2"
+mike = "^2.1.3"
+mkdocs-gen-files = "^0.5.0"

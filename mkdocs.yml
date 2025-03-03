@@ -1,0 +1,71 @@
+site_name: elematic
+site_url: "https://noahgula.com/elematic/"
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    # primary: teal
+    # accent: teal
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - toc.follow
+  extra:
+    version:
+      provider: mike
+repo_url: https://github.com/nogula/elematic
+repo_name: nogula/elematic
+
+watch:
+  - elematic
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            heading_level: 2
+            show_root_heading: True
+            show_source: False
+            show_bases: False
+  - mike
+
+
+nav:
+  - About: index.md
+  - Tutorials: tutorials.md
+  - How-To Guides: how-to-guides.md
+  - Reference:
+    - Data structures: reference/ds.md
+    - Utilities: reference/util.md
+  - Explanation: explanation.md
+
